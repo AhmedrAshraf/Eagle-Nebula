@@ -335,7 +335,7 @@ export const Design4: React.FC = () => {
         </div>
 
         {/* Floating Action Elements */}
-        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-20"> {/* Increased z-index */}
+        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-20 md:w-auto w-5/6"> {/* Increased z-index */}
           <div className="flex space-x-6">
             <button className="group bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-full hover:bg-white/20 transition-all duration-300 flex items-center gap-2">
               <Rocket className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
@@ -356,9 +356,9 @@ export const Design4: React.FC = () => {
 
       {/* Rest of the sections... */}
       {/* What We Are Section */}
-      <section id="who-we-are" className="py-32 px-6 relative z-20"> {/* Increased z-index */}
+      <section id="who-we-are" className="py-4 px-6 md:py-32 md:px-6 relative z-20"> {/* Increased z-index */}
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-1 gap-16 items-center">
+          <div className="grid lg:grid-cols-1 gap-16  h-[140vh]  items-center">
             <div data-speed="0.1">
               <h2 className="text-5xl font-extralight text-white mb-8 tracking-wide">
                 <EditableText
@@ -379,7 +379,7 @@ export const Design4: React.FC = () => {
                 <span className="text-white/60">Co-founding, not just coaching</span>
               </div>
             </div>
-            <div data-speed="0.2" className="relative mt-20">
+            <div data-speed="0.2" className="relative mt-24 md:mt-12">
               <div className="w-full h-96 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-3xl backdrop-blur-sm border border-white/10 flex items-center justify-center">
                 <div className="text-center">
                   <div className="w-24 h-24 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -508,34 +508,45 @@ export const Design4: React.FC = () => {
                   className="w-full"
                 />
               </p>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-20">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-xl font-light text-white">1</span>
+              <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mb-20">
+            <div className="group backdrop-blur-sm border border-white/10 rounded-2xl p-4 transition-all duration-500 hover:scale-105 bg-white/10">
+              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-2xl font-light text-white">1</span>
               </div>
-              <h3 className="text-xl font-light text-white mb-3">What You Love — your passion foundation</h3>
-              {/* <p className="text-white/60 text-sm">Tell us who you are, your story, and what excites you. We don't need a perfect idea—we need a spark.</p> */}
+              <h3 className="text-lg font-light text-white mb-4">What You Love</h3>
+              <p className="text-white/60 text-sm leading-relaxed">Your passion foundation that fuels your journey</p>
             </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-xl font-light text-white">2</span>
+
+            <div className="group backdrop-blur-sm border border-white/10 rounded-2xl p-4 transition-all duration-500 hover:scale-105 bg-white/10">
+              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-2xl font-light text-white">2</span>
               </div>
-              <h3 className="text-xl font-light text-white mb-3">What You Have — skills and resources</h3>
-              {/* <p className="text-white/60 text-sm">We run the Design Your Business with AI process to map your founder profile. You're the center of the design.</p> */}
+              <h3 className="text-lg font-light text-white mb-4">What You Have</h3>
+              <p className="text-white/60 text-sm leading-relaxed">Skills, experience, and resources at your disposal</p>
             </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-xl font-light text-white">3</span>
+
+            <div className="group backdrop-blur-sm border border-white/10 rounded-2xl p-4 transition-all duration-500 hover:scale-105 bg-white/10">
+              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-2xl font-light text-white">3</span>
               </div>
-              <h3 className="text-lg font-light text-white mb-3">Your Best Way to Work</h3>
-              {/* <p className="text-white/60 text-sm">We sit at the same table and build: brainstorm, validate, name, position, prototype—using AI for faster testing.</p> */}
+              <h3 className="text-lg font-light text-white mb-4">Your Best Way to Work</h3>
+              <p className="text-white/60 text-sm leading-relaxed">How you operate at peak performance</p>
             </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-xl font-light text-white">4</span>
+
+            <div className="group backdrop-blur-sm border border-white/10 rounded-2xl p-4 transition-all duration-500 hover:scale-105 bg-white/10">
+              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-2xl font-light text-white">4</span>
               </div>
-              <h3 className="text-lg font-light text-white mb-3">What You Want to Achieve</h3>
-              {/* <p className="text-white/60 text-sm">Join our community of passionate Saudi founders. We launch together and share the risk—and the reward.</p> */}
+              <h3 className="text-lg font-light text-white mb-4">What You Want to Achieve</h3>
+              <p className="text-white/60 text-sm leading-relaxed">Your goals and the life you're building toward</p>
+            </div>
+
+            <div className="group backdrop-blur-sm border border-white/10 rounded-2xl p-4 transition-all duration-500 hover:scale-105 bg-white/10">
+              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-2xl font-light text-white">5</span>
+              </div>
+              <h3 className="text-lg font-light text-white mb-4">Your AI Co-Builder</h3>
+              <p className="text-white/60 text-sm leading-relaxed">Your speed advantage that makes everything easier</p>
             </div>
           </div>
           
@@ -599,15 +610,15 @@ export const Design4: React.FC = () => {
 
       {/* Journey Section */}
       <section id="journey" className="py-32 px-6 relative z-20"> {/* Increased z-index */}
-        <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-5xl font-extralight text-white mb-8 tracking-wide">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-6xl font-extralight text-white mb-10 tracking-wide">
               <EditableText
                 value={content.journeyTitle}
                 onChange={(value) => handleContentChange('journeyTitle', value)}
               />
             </h2>
-            <p className="text-xl text-white/70 leading-relaxed max-w-4xl mx-auto font-light mb-12">
+            <p className="text-xl text-white/70 leading-relaxed max-w-4xl mx-auto font-light mb-16">
               <EditableText
                 value={content.journeyDescription}
                 onChange={(value) => handleContentChange('journeyDescription', value)}
@@ -617,45 +628,70 @@ export const Design4: React.FC = () => {
             </p>
           </div>
           
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-xl font-light text-white">1</span>
+          <div className="grid lg:grid-cols-1 gap-16 items-center">
+            <div className="lg:order-2">
+              <h2 className="text-5xl font-extralight text-white mb-8 tracking-wide text-center">
+                <EditableText
+                  value={content.methodologyTitle}
+                    onChange={(value) => handleContentChange('methodologyTitle', value)}
+                  />
+                </h2>
+                <h3 className="text-4xl font-extralight text-white mb-8 tracking-wide text-center mt-12">
+                <EditableText
+                  value={content.methodologySubTitle}
+                    onChange={(value) => handleContentChange('methodologySubTitle', value)}
+                  />
+                </h3>
+              <p className="text-xl text-white/70 leading-relaxed mb-8 font-light">
+                <EditableText
+                  value={content.methodologyDescription}
+                  onChange={(value) => handleContentChange('methodologyDescription', value)}
+                  multiline
+                  className="w-full"
+                />
+              </p>
+              <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mb-20">
+            <div className="group backdrop-blur-sm border border-white/10 rounded-2xl p-4 transition-all duration-500 hover:scale-105 bg-white/10">
+              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-2xl font-light text-white">1</span>
               </div>
-              <h3 className="text-xl font-light text-white mb-3">Apply</h3>
-              <p className="text-white/60 text-sm">Tell us who you are, your story, and what excites you. We don't need a perfect idea—we need a spark.</p>
+              <h3 className="text-lg font-light text-white mb-4">Apply</h3>
+              <p className="text-white/60 text-sm leading-relaxed">Tell us who you are, your story, and what excites you. We don't need a perfect idea—we need a spark.</p>
             </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-xl font-light text-white">2</span>
+
+            <div className="group backdrop-blur-sm border border-white/10 rounded-2xl p-4 transition-all duration-500 hover:scale-105 bg-white/10">
+              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-2xl font-light text-white">2</span>
               </div>
-              <h3 className="text-xl font-light text-white mb-3">Discovery</h3>
-              <p className="text-white/60 text-sm">We run the Design Your Business with AI process to map your founder profile. You're the center of the design.</p>
+              <h3 className="text-lg font-light text-white mb-4">Discovery</h3>
+              <p className="text-white/60 text-sm leading-relaxed">We run the Design Your Business with AI process to map your founder profile. You're the center of the design.</p>
             </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-xl font-light text-white">3</span>
+
+            <div className="group backdrop-blur-sm border border-white/10 rounded-2xl p-4 transition-all duration-500 hover:scale-105 bg-white/10">
+              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-2xl font-light text-white">3</span>
               </div>
-              <h3 className="text-lg font-light text-white mb-3">Co‑Founding Sprint</h3>
-              <p className="text-white/60 text-sm">We sit at the same table and build: brainstorm, validate, name, position, prototype—using AI for faster testing.</p>
+              <h3 className="text-lg font-light text-white mb-4">Co‑Founding Sprint</h3>
+              <p className="text-white/60 text-sm leading-relaxed">We sit at the same table and build: brainstorm, validate, name, position, prototype—using AI for faster testing.</p>
             </div>
-            <div className="text-center">
-              <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-xl font-light text-white">4</span>
+
+            <div className="group backdrop-blur-sm border border-white/10 rounded-2xl p-4 transition-all duration-500 hover:scale-105 bg-white/10">
+              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-2xl font-light text-white">4</span>
               </div>
-              <h3 className="text-lg font-light text-white mb-3">Ecosystem & Launch</h3>
-              <p className="text-white/60 text-sm">Join our community of passionate Saudi founders. We launch together and share the risk—and the reward.</p>
+              <h3 className="text-lg font-light text-white mb-4">Ecosystem & Launch</h3>
+              <p className="text-white/60 text-sm leading-relaxed">Join our community of passionate Saudi founders. We launch together and share the risk—and the reward.</p>
             </div>
-          </div>
-          
-          <div className="text-center mt-16">
-            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 max-w-2xl mx-auto">
-              <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                <span className="text-xl font-light text-white">5</span>
+
+            <div className="group backdrop-blur-sm border border-white/10 rounded-2xl p-4 transition-all duration-500 hover:scale-105 bg-white/10">
+              <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                <span className="text-2xl font-light text-white">5</span>
               </div>
-              <h3 className="text-xl font-light text-white mb-4">The Eagle Nebula Ecosystem</h3>
+              <h3 className="text-lg font-light text-white mb-4">The Eagle Nebula Ecosystem</h3>
               <p className="text-white/60 text-sm leading-relaxed">Join a supportive community of passionate Saudi founders, coaches, and operators. Share wins, ask real questions, get real answers.</p>
             </div>
+          </div>
+          </div>
           </div>
         </div>
       </section>
