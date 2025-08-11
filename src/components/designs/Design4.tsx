@@ -150,6 +150,9 @@ export const Design4: React.FC = () => {
 
   return (
     <div ref={parallaxRef} className="relative">
+      {/* Background Overlay */}
+      <div className="fixed inset-0 bg-black/60 z-10" /> {/* Added dark overlay */}
+
       {/* Header Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-4">
@@ -304,7 +307,7 @@ export const Design4: React.FC = () => {
         </div>
 
         {/* Main Content */}
-        <div className="relative z-10 text-center max-w-6xl mx-auto px-6 pt-20">
+        <div className="relative z-20 text-center max-w-6xl mx-auto px-6 pt-20"> {/* Increased z-index */}
           <div data-speed="0.2">
             <h1 className="text-4xl md:text-6xl font-extralight text-white mb-6 tracking-wide">
               <EditableText
@@ -331,7 +334,7 @@ export const Design4: React.FC = () => {
         </div>
 
         {/* Floating Action Elements */}
-        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2">
+        <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-20"> {/* Increased z-index */}
           <div className="flex space-x-6">
             <button className="group bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-full hover:bg-white/20 transition-all duration-300 flex items-center gap-2">
               <Rocket className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
@@ -345,13 +348,14 @@ export const Design4: React.FC = () => {
         </div>
 
         {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20"> {/* Increased z-index */}
           <ChevronDown className="w-6 h-6 text-white/50 animate-bounce" />
         </div>
       </section>
 
+      {/* Rest of the sections... */}
       {/* What We Are Section */}
-      <section id="who-we-are" className="py-32 px-6 relative">
+      <section id="who-we-are" className="py-32 px-6 relative z-20"> {/* Increased z-index */}
         <div className="max-w-6xl mx-auto">
           <div className="grid lg:grid-cols-1 gap-16 items-center">
             <div data-speed="0.1">
@@ -389,7 +393,7 @@ export const Design4: React.FC = () => {
       </section>
 
       {/* Focus Section */}
-      <section id="focus" className="py-32 px-6 relative">
+      <section id="focus" className="py-32 px-6 relative z-20"> {/* Increased z-index */}
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-20">
             <h2 className="text-5xl font-extralight text-white mb-8 tracking-wide">
@@ -470,7 +474,7 @@ export const Design4: React.FC = () => {
       </section>
 
       {/* Methodology Section */}
-      <section id="methodology" className="py-32 px-6 relative">
+      <section id="methodology" className="py-32 px-6 relative z-20"> {/* Increased z-index */}
         <div className="max-w-6xl mx-auto">
         <div className="lg:order-1 relative">
               <div className="w-full h-[700px] rounded-3xl overflow-hidden mb-20">
@@ -550,7 +554,7 @@ export const Design4: React.FC = () => {
       </section>
 
       {/* Why Saudi Section */}
-      <section id="what-you-get" className="px-6">
+      <section id="what-you-get" className="px-6 relative z-20"> {/* Increased z-index */}
         {/* <div className="max-w-6xl mx-auto mt-40"> */}
           {/* <div className="max-w-4xl mx-auto"> */}
             {/* <div data-speed="0.1">
@@ -573,7 +577,7 @@ export const Design4: React.FC = () => {
         {/* </div> */}
       </section>
 
-      <section id="cta" className="py-32 px-6 relative">
+      <section id="cta" className="py-32 px-6 relative z-20"> {/* Increased z-index */}
         <div className="max-w-4xl mx-auto text-center">
         <h2 className="text-5xl font-extralight text-white mb-8 tracking-wide text-center">
               <EditableText
@@ -593,7 +597,7 @@ export const Design4: React.FC = () => {
       </section>
 
       {/* Journey Section */}
-      <section id="journey" className="py-32 px-6 relative">
+      <section id="journey" className="py-32 px-6 relative z-20"> {/* Increased z-index */}
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-5xl font-extralight text-white mb-8 tracking-wide">
@@ -656,7 +660,7 @@ export const Design4: React.FC = () => {
       </section>
 
       {/* Final CTA Section */}
-      <section id="cta" className="py-32 px-6 relative">
+      <section id="cta" className="py-32 px-6 relative z-20"> {/* Increased z-index */}
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-4xl md:text-5xl font-extralight text-white mb-8 tracking-wide">
             <EditableText
