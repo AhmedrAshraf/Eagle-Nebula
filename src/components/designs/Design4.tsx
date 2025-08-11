@@ -474,7 +474,7 @@ export const Design4: React.FC = () => {
       </section>
 
       {/* Methodology Section */}
-      <section id="methodology" className="py-32 px-6 relative z-20"> {/* Increased z-index */}
+      <section id="focus" className="py-32 px-6 relative z-20">
         <div className="max-w-6xl mx-auto">
         <div className="lg:order-1 relative">
               <div className="w-full h-[700px] rounded-3xl overflow-hidden mb-20">
@@ -507,7 +507,7 @@ export const Design4: React.FC = () => {
                   className="w-full"
                 />
               </p>
-              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mt-20">
             <div className="text-center">
               <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
                 <span className="text-xl font-light text-white">1</span>
