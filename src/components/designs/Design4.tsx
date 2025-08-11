@@ -8,6 +8,7 @@ interface EditableContent {
   whatWeAreTitle: string;
   whatWeAreDescription: string;
   focusTitle: string;
+  focusSubTitle: string;
   focusDescription: string;
   focusFields: string[];
   focusFounders: string;
@@ -34,7 +35,8 @@ export const Design4: React.FC = () => {
     heroDescription: 'In space, the Eagle Nebula is where stars are Created.\nIn our studio, it\'s where passionate entrepreneurs are created.\nWe don\'t just coach you… we co‑found with you.\nWe build Saudi startups together—from the first spark to launch.',
     whatWeAreTitle: 'Who We Are',
     whatWeAreDescription: 'Most people think starting a business means figuring it out alone—or joining an incubator that only teaches theory.\n\nA startup studio is different.\nIt\'s a startup factory where ideas become companies side‑by‑side with experienced entrepreneurs.\n\nWhere we stand apart: many incubators, accelerators, and VCs chase numbers only—growth charts, user counts, revenue graphs. They treat passion as "nice to have" and ignore the new wave of founders: content creators, solopreneurs, freeLancers, influencers, creatives, coaches, personal brands —people building in completely new ways.\n\nAt Eagle Nebula, we start with you. We design a business around your passion, your skills, and the way you work best—then co‑found it with you.\n\nFrom day one you\'re inside our Design Your Business with AI methodology, supported by a community of like‑minded founders, seasoned coaches, and a co‑founder who\'s invested in your success.\n\nWe don\'t just coach.\nWe co‑create, co‑own, and co‑launch.',
-    focusTitle: 'Our Focus & Who We Work With',
+    focusTitle: 'Who We Work With',
+    focusSubTitle: 'Our Focus',
     focusDescription: 'At Eagle Nebula, we\'re not looking for just any founder.\nWe\'re looking for passionate entrepreneurs — people who are driven not only by profit, but by the desire to create something that truly matters to them.',
     focusFields: [
       'Have a spark they can\'t ignore — a topic, craft, or mission that excites them',
@@ -396,6 +398,12 @@ export const Design4: React.FC = () => {
                 onChange={(value) => handleContentChange('focusTitle', value)}
               />
             </h2>
+            <h3 className="text-4xl font-extralight text-white mb-8 tracking-wide text-center mt-12">
+            <EditableText
+              value={content.focusSubTitle}
+                onChange={(value) => handleContentChange('focusSubTitle', value)}
+              />
+            </h3>
             <p className="text-xl text-white/70 leading-relaxed max-w-4xl mx-auto font-light mb-12">
               <EditableText
                 value={content.focusDescription}
@@ -495,39 +503,58 @@ export const Design4: React.FC = () => {
                   className="w-full"
                 />
               </p>
-              <div className="space-y-4">
-                <div className="flex items-center gap-4">
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
-                  <span className="text-white/60 font-light">1. What You Love — your passion foundation</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
-                  <span className="text-white/60 font-light">2. What You Have — skills and resources</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
-                  <span className="text-white/60 font-light">3. Your Best Way to Work</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
-                  <span className="text-white/60 font-light">4. What You Want to Achieve</span>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="w-2 h-2 bg-white rounded-full"></div>
-                  <span className="text-white/60 font-light">5. Your AI Co-Builder</span>
-                </div>
+              <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-xl font-light text-white">1</span>
               </div>
+              <h3 className="text-xl font-light text-white mb-3">What You Love — your passion foundation</h3>
+              {/* <p className="text-white/60 text-sm">Tell us who you are, your story, and what excites you. We don't need a perfect idea—we need a spark.</p> */}
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-xl font-light text-white">2</span>
+              </div>
+              <h3 className="text-xl font-light text-white mb-3">What You Have — skills and resources</h3>
+              {/* <p className="text-white/60 text-sm">We run the Design Your Business with AI process to map your founder profile. You're the center of the design.</p> */}
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-xl font-light text-white">3</span>
+              </div>
+              <h3 className="text-lg font-light text-white mb-3">Your Best Way to Work</h3>
+              {/* <p className="text-white/60 text-sm">We sit at the same table and build: brainstorm, validate, name, position, prototype—using AI for faster testing.</p> */}
+            </div>
+            <div className="text-center">
+              <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-xl font-light text-white">4</span>
+              </div>
+              <h3 className="text-lg font-light text-white mb-3">What You Want to Achieve</h3>
+              {/* <p className="text-white/60 text-sm">Join our community of passionate Saudi founders. We launch together and share the risk—and the reward.</p> */}
+            </div>
+          </div>
+          
+          <div className="text-center mt-16">
+            <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 max-w-2xl mx-auto">
+            <img src="/EC8381A2-2B6D-4A4A-BF89-9BC67C3407BD.png" alt="AI-Powered Methodology" className="w-full h-full object-contain" />
+              {/* <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-xl font-light text-white">5</span>
+              </div> */}
+              {/* <h3 className="text-xl font-light text-white mb-4">The Eagle Nebula Ecosystem</h3>
+              <p className="text-white/60 text-sm leading-relaxed">Join a supportive community of passionate Saudi founders, coaches, and operators. Share wins, ask real questions, get real answers.</p> */}
+            </div>
+          </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Why Saudi Section */}
-      <section id="what-you-get" className="py-48 px-6 relative">
-        <div className="max-w-6xl mx-auto mt-40">
-          <div className="max-w-4xl mx-auto">
-            <div data-speed="0.1">
-            <h2 className="text-5xl font-extralight text-white mb-8 tracking-wide">
+      <section id="what-you-get" className="px-6">
+        {/* <div className="max-w-6xl mx-auto mt-40"> */}
+          {/* <div className="max-w-4xl mx-auto"> */}
+            {/* <div data-speed="0.1">
+            <h2 className="text-5xl font-extralight text-white mb-8 tracking-wide text-center">
               <EditableText
                 value={content.whatYouGetTitle}
                 onChange={(value) => handleContentChange('whatYouGetTitle', value)}
@@ -541,8 +568,27 @@ export const Design4: React.FC = () => {
                 className="w-full"
               />
             </p>
-            </div>
-          </div>
+            </div> */}
+            {/* </div> */}
+        {/* </div> */}
+      </section>
+
+      <section id="cta" className="py-32 px-6 relative">
+        <div className="max-w-4xl mx-auto text-center">
+        <h2 className="text-5xl font-extralight text-white mb-8 tracking-wide text-center">
+              <EditableText
+                value={content.whatYouGetTitle}
+                onChange={(value) => handleContentChange('whatYouGetTitle', value)}
+              />
+            </h2>
+          <p className="text-xl text-white/70 leading-relaxed mb-12 font-light">
+          <EditableText
+                value={content.whatYouGetDescription}
+                onChange={(value) => handleContentChange('whatYouGetDescription', value)}
+                multiline
+                className="w-full"
+              />
+          </p>
         </div>
       </section>
 
