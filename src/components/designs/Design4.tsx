@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Sparkles, Rocket, Star, Zap, Edit3, Save, X, Menu, ChevronDown } from 'lucide-react';
 
+
 interface EditableContent {
   heroTitle: string;
   heroSubtitle: string;
@@ -478,8 +479,8 @@ export const Design4: React.FC = () => {
         <div className="max-w-6xl mx-auto">
         <div className="lg:order-1 relative">
               <div className="w-full h-[700px] rounded-3xl overflow-hidden mb-20">
-                <img 
-                  src="/C19D5355-B820-4697-9DC1-F3AD8436E8E8.png"
+                <img  
+                  src="/assets/C19D5355-B820-4697-9DC1-F3AD8436E8E8.png"
                   alt="AI-Powered Methodology"
                   className="w-full h-full object-contain"
                 />
@@ -540,7 +541,7 @@ export const Design4: React.FC = () => {
           
           <div className="text-center mt-16">
             <div className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-8 max-w-2xl mx-auto">
-            <img src="/EC8381A2-2B6D-4A4A-BF89-9BC67C3407BD.png" alt="AI-Powered Methodology" className="w-full h-full object-contain" />
+            <img src="/assets/EC8381A2-2B6D-4A4A-BF89-9BC67C3407BD.png" alt="AI-Powered Methodology" className="w-full h-full object-contain" />
               {/* <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
                 <span className="text-xl font-light text-white">5</span>
               </div> */}
