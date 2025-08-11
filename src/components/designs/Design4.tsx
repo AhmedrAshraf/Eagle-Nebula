@@ -151,7 +151,7 @@ export const Design4: React.FC = () => {
   return (
     <div ref={parallaxRef} className="relative">
       {/* Background Overlay */}
-      <div className="fixed inset-0 bg-black/60 z-10" /> {/* Added dark overlay */}
+      <div className="fixed inset-0 bg-black/50 z-10" /> {/* Added dark overlay */}
 
       {/* Header Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
