@@ -8,15 +8,12 @@ interface ResourceItem {
   icon: React.ComponentType<any>;
   buttonText: string;
   buttonAction: 'download' | 'assessment' | 'community';
-  featured?: boolean;
 }
 
 interface EditableContent {
   heroTitle: string;
   heroDescription: string;
-  featuredTitle: string;
-  featuredDescription: string;
-  allResourcesTitle: string;
+  resourcesTitle: string;
 }
 
 export const ResourcesPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
@@ -25,20 +22,22 @@ export const ResourcesPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const [content, setContent] = useState<EditableContent>({
     heroTitle: 'Resources & Gifts',
     heroDescription: 'Exclusive tools, frameworks, and resources to accelerate your entrepreneurial journey. From AI-powered toolkits to comprehensive assessments—everything you need to design and build your passionate business.',
-    featuredTitle: 'Featured Resources',
-    featuredDescription: 'Start with these essential tools designed specifically for passionate entrepreneurs.',
-    allResourcesTitle: 'All Resources & Materials'
+    resourcesTitle: 'All Resources & Materials'
   });
 
-  const [resources] = useState<ResourceItem[]>([
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const [resources, setResources] = useState<ResourceItem[]>([
     {
       id: 'business-framework',
       title: 'Business Design Framework',
       description: 'Our complete framework for designing your business around your unique founder profile. Includes detailed worksheets, step-by-step guides, and AI prompts to help you discover your sweet spot.',
       icon: Sparkles,
       buttonText: 'Download Framework',
-      buttonAction: 'download',
-      featured: true
+      buttonAction: 'download'
     },
     {
       id: 'ai-toolkit',
@@ -46,8 +45,7 @@ export const ResourcesPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       description: 'Essential AI tools and prompts for market research, content creation, business validation, and operations. Save months of work with our curated collection of AI assistants.',
       icon: Star,
       buttonText: 'Get Toolkit',
-      buttonAction: 'download',
-      featured: true
+      buttonAction: 'download'
     },
     {
       id: 'founder-assessment',
@@ -55,8 +53,7 @@ export const ResourcesPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
       description: 'Discover your unique founder profile with our comprehensive assessment. Understand your strengths, work style, and ideal business model before you build.',
       icon: Rocket,
       buttonText: 'Take Assessment',
-      buttonAction: 'assessment',
-      featured: true
+      buttonAction: 'assessment'
     },
     {
       id: 'validation-checklist',
@@ -122,6 +119,14 @@ export const ResourcesPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     setContent(prev => ({ ...prev, [field]: value }));
   };
 
+  const handleResourceChange = (resourceId: string, field: 'title' | 'description' | 'buttonText', value: string) => {
+    setResources(prev => prev.map(resource => 
+      resource.id === resourceId 
+        ? { ...resource, [field]: value }
+        : resource
+    ));
+  };
+
   const handleResourceAction = (resource: ResourceItem) => {
     switch (resource.buttonAction) {
       case 'download':
@@ -183,8 +188,49 @@ export const ResourcesPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     );
   };
 
-  const featuredResources = resources.filter(r => r.featured);
-  const otherResources = resources.filter(r => !r.featured);
+  const EditableResourceText: React.FC<{
+    value: string;
+    onChange: (value: string) => void;
+    className?: string;
+    multiline?: boolean;
+    placeholder?: string;
+  }> = ({ value, onChange, className = '', multiline = false, placeholder = '' }) => {
+    if (!isEditing) {
+      if (multiline) {
+        return (
+          <span 
+            className={`${className} whitespace-pre-line`}
+            style={{ whiteSpace: 'pre-line' }}
+          >
+            {value}
+          </span>
+        );
+      }
+      return <span className={className}>{value}</span>;
+    }
+
+    if (multiline) {
+      return (
+        <textarea
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          className={`${className} bg-white/10 backdrop-blur-sm border border-white/30 rounded-lg p-3 resize-none`}
+          placeholder={placeholder}
+          rows={3}
+        />
+      );
+    }
+
+    return (
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={`${className} bg-white/10 backdrop-blur-sm border border-white/30 rounded-lg p-2`}
+        placeholder={placeholder}
+      />
+    );
+  };
 
   return (
     <div ref={parallaxRef} className="relative min-h-screen bg-black">
@@ -254,37 +300,40 @@ export const ResourcesPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
         </div>
       </section>
 
-      {/* Featured Resources Section */}
+      {/* Resources Section */}
       <section className="py-20 px-6 relative z-20">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-extralight text-white mb-6 tracking-wide">
               <EditableText
-                value={content.featuredTitle}
-                onChange={(value) => handleContentChange('featuredTitle', value)}
+                value={content.resourcesTitle}
+                onChange={(value) => handleContentChange('resourcesTitle', value)}
               />
             </h2>
-            <p className="text-lg text-white/70 leading-relaxed max-w-3xl mx-auto font-light">
-              <EditableText
-                value={content.featuredDescription}
-                onChange={(value) => handleContentChange('featuredDescription', value)}
-                multiline
-                className="w-full"
-              />
-            </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
-            {featuredResources.map((resource) => {
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {resources.map((resource) => {
               const IconComponent = resource.icon;
               return (
                 <div key={resource.id} className="group backdrop-blur-sm border border-white/10 rounded-2xl p-8 transition-all duration-500 hover:scale-105 bg-white/10">
                   <div className="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                     <IconComponent className="w-8 h-8 text-white" />
                   </div>
-                  <h3 className="text-2xl font-light text-white mb-4 text-center">{resource.title}</h3>
+                  <h3 className="text-2xl font-light text-white mb-4 text-center">
+                    <EditableResourceText
+                      value={resource.title}
+                      onChange={(value) => handleResourceChange(resource.id, 'title', value)}
+                      className="w-full text-center"
+                    />
+                  </h3>
                   <p className="text-white/70 text-center mb-6 leading-relaxed">
-                    {resource.description}
+                    <EditableResourceText
+                      value={resource.description}
+                      onChange={(value) => handleResourceChange(resource.id, 'description', value)}
+                      className="w-full text-center"
+                      multiline
+                    />
                   </p>
                   <div className="text-center">
                     <button 
@@ -294,49 +343,11 @@ export const ResourcesPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                       {resource.buttonAction === 'download' && <Download className="w-4 h-4" />}
                       {resource.buttonAction === 'assessment' && <ExternalLink className="w-4 h-4" />}
                       {resource.buttonAction === 'community' && <Rocket className="w-4 h-4" />}
-                      {resource.buttonText}
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* All Resources Section */}
-      <section className="py-20 px-6 relative z-20">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-extralight text-white mb-6 tracking-wide">
-              <EditableText
-                value={content.allResourcesTitle}
-                onChange={(value) => handleContentChange('allResourcesTitle', value)}
-              />
-            </h2>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {otherResources.map((resource) => {
-              const IconComponent = resource.icon;
-              return (
-                <div key={resource.id} className="group backdrop-blur-sm border border-white/10 rounded-xl p-6 transition-all duration-500 hover:scale-105 bg-white/5">
-                  <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                    <IconComponent className="w-6 h-6 text-white" />
-                  </div>
-                  <h3 className="text-lg font-light text-white mb-3 text-center">{resource.title}</h3>
-                  <p className="text-white/60 text-center mb-4 leading-relaxed text-sm">
-                    {resource.description}
-                  </p>
-                  <div className="text-center">
-                    <button 
-                      onClick={() => handleResourceAction(resource)}
-                      className="bg-white/20 backdrop-blur-sm border border-white/30 text-white px-4 py-2 rounded-full hover:bg-white/30 transition-all duration-300 flex items-center gap-2 mx-auto text-sm"
-                    >
-                      {resource.buttonAction === 'download' && <Download className="w-3 h-3" />}
-                      {resource.buttonAction === 'assessment' && <ExternalLink className="w-3 h-3" />}
-                      {resource.buttonAction === 'community' && <Rocket className="w-3 h-3" />}
-                      {resource.buttonText}
+                      <EditableResourceText
+                        value={resource.buttonText}
+                        onChange={(value) => handleResourceChange(resource.id, 'buttonText', value)}
+                        className="inline"
+                      />
                     </button>
                   </div>
                 </div>

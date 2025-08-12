@@ -63,6 +63,9 @@ export const Design4: React.FC<{ onNavigateToResources: () => void }> = ({ onNav
   });
 
   useEffect(() => {
+    // Scroll to top when component mounts
+    window.scrollTo(0, 0);
+    
     const handleScroll = () => {
       if (!parallaxRef.current) return;
 
