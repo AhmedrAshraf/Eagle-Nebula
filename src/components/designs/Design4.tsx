@@ -336,12 +336,12 @@ export const Design4: React.FC = () => {
 
         {/* Floating Action Elements */}
         <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 z-20 md:w-auto w-5/6"> {/* Increased z-index */}
-          <div className="flex space-x-6">
-            <button className="group bg-white/10 backdrop-blur-md border border-white/20 text-white px-6 py-3 rounded-full hover:bg-white/20 transition-all duration-300 flex items-center gap-2">
+          <div className="flex flex-col md:flex-row space-x-6 mt-8 items-center md:gap-5 justify-center">
+            <button className="group bg-white/10 justify-center backdrop-blur-md border text-center border-white/20 text-white px-6 py-3 rounded-full hover:bg-white/20 transition-all duration-300 flex items-center gap-2 w-full md:w-auto h-10">
               <Rocket className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
               Apply to Join the Studio
             </button>
-            <button className="group bg-white text-black px-6 py-3 rounded-full hover:scale-105 transition-all duration-300 flex items-center gap-2">
+            <button className="group bg-white text-center justify-center text-black px-6 py-3 rounded-full hover:scale-105 transition-all duration-300 flex items-center gap-2 w-full md:w-auto !ml-0 my-8 h-10">
               <Star className="w-5 h-5" />
               Learn More
             </button>
