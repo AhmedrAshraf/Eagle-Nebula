@@ -225,12 +225,6 @@ export const Design4: React.FC<{
               >
                 Resources & Gifts
               </button>
-              <button
-                onClick={() => scrollToSection('cta')}
-                className="text-white/70 hover:text-white transition-colors duration-300"
-              >
-                Apply
-              </button>
             </nav>
 
             {/* Edit Button & Mobile Menu */}
