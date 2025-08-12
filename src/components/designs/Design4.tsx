@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Rocket, Star, Zap, Edit3, Save, X, Menu, ChevronDown } from 'lucide-react';
+import { Rocket, Star, Zap, Edit3, Save, X, Menu, ChevronDown, Twitter, Instagram, Linkedin } from 'lucide-react';
 
 
 interface EditableContent {
@@ -27,7 +27,10 @@ interface EditableContent {
   ctaDescription: string;
 }
 
-export const Design4: React.FC<{ onNavigateToResources: () => void }> = ({ onNavigateToResources }) => {
+export const Design4: React.FC<{
+  onNavigateToResources: () => void;
+  onNavigateToBlogs: () => void;
+}> = ({ onNavigateToResources, onNavigateToBlogs }) => {
   const parallaxRef = useRef<HTMLDivElement>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -65,7 +68,7 @@ export const Design4: React.FC<{ onNavigateToResources: () => void }> = ({ onNav
   useEffect(() => {
     // Scroll to top when component mounts
     window.scrollTo(0, 0);
-    
+
     const handleScroll = () => {
       if (!parallaxRef.current) return;
 
@@ -131,7 +134,7 @@ export const Design4: React.FC<{ onNavigateToResources: () => void }> = ({ onNav
       // For multiline text, use CSS to preserve line breaks
       if (multiline) {
         return (
-          <span 
+          <span
             className={`${className} whitespace-pre-line`}
             style={{ whiteSpace: 'pre-line' }}
           >
@@ -235,8 +238,8 @@ export const Design4: React.FC<{ onNavigateToResources: () => void }> = ({ onNav
               <button
                 onClick={() => setIsEditing(!isEditing)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${isEditing
-                    ? 'bg-green-500/20 text-green-400 border border-green-400/30'
-                    : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
+                  ? 'bg-green-500/20 text-green-400 border border-green-400/30'
+                  : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
                   }`}
               >
                 {isEditing ? (
@@ -724,6 +727,30 @@ export const Design4: React.FC<{ onNavigateToResources: () => void }> = ({ onNav
           </div>
         </div>
       </section>
+
+      <footer className="max-w-7xl mx-auto py-8 px-6 relative z-20 border-t border-white/10">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-white text-sm">
+            © 2025 EAGLE NEBULA!. All rights reserved.
+          </p>
+          <div className="flex justify-center items-center gap-4">
+            <button className="text-white hover:text-white/60 transition-colors text-sm">
+              <Twitter className="w-5 h-5" />
+            </button>
+            <button className="text-white hover:text-white/60 transition-colors text-sm">
+              <Instagram className="w-5 h-5" />
+            </button>
+            <button className="text-white hover:text-white/60 transition-colors text-sm">
+              <Linkedin className="w-5 h-5" />
+            </button>
+          </div>
+          <div className="flex items-center gap-6">
+            <button className="text-white hover:text-white/60 transition-colors text-sm" onClick={onNavigateToBlogs}>
+              Blogs & News
+            </button>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };

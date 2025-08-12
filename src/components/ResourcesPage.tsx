@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Sparkles, Rocket, Star, Zap, Edit3, ArrowLeft, Download, ExternalLink } from 'lucide-react';
+import { Sparkles, Rocket, Star, Edit3, ArrowLeft, Download, ExternalLink, Twitter, Instagram, Linkedin } from 'lucide-react';
 
 interface ResourceItem {
   id: string;
@@ -16,7 +16,10 @@ interface EditableContent {
   resourcesTitle: string;
 }
 
-export const ResourcesPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
+export const ResourcesPage: React.FC<{ 
+  onBack: () => void;
+  onNavigateToBlogs: () => void;
+}> = ({ onBack, onNavigateToBlogs }) => {
   const parallaxRef = useRef<HTMLDivElement>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [content, setContent] = useState<EditableContent>({
@@ -120,8 +123,8 @@ export const ResourcesPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   };
 
   const handleResourceChange = (resourceId: string, field: 'title' | 'description' | 'buttonText', value: string) => {
-    setResources(prev => prev.map(resource => 
-      resource.id === resourceId 
+    setResources(prev => prev.map(resource =>
+      resource.id === resourceId
         ? { ...resource, [field]: value }
         : resource
     ));
@@ -154,7 +157,7 @@ export const ResourcesPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     if (!isEditing) {
       if (multiline) {
         return (
-          <span 
+          <span
             className={`${className} whitespace-pre-line`}
             style={{ whiteSpace: 'pre-line' }}
           >
@@ -198,7 +201,7 @@ export const ResourcesPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
     if (!isEditing) {
       if (multiline) {
         return (
-          <span 
+          <span
             className={`${className} whitespace-pre-line`}
             style={{ whiteSpace: 'pre-line' }}
           >
@@ -259,8 +262,8 @@ export const ResourcesPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
               <button
                 onClick={() => setIsEditing(!isEditing)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${isEditing
-                    ? 'bg-green-500/20 text-green-400 border border-green-400/30'
-                    : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
+                  ? 'bg-green-500/20 text-green-400 border border-green-400/30'
+                  : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
                   }`}
               >
                 {isEditing ? (
@@ -336,7 +339,7 @@ export const ResourcesPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
                     />
                   </p>
                   <div className="text-center">
-                    <button 
+                    <button
                       onClick={() => handleResourceAction(resource)}
                       className="bg-white text-black px-6 py-3 rounded-full hover:scale-105 transition-all duration-300 flex items-center gap-2 mx-auto font-medium"
                     >
@@ -367,14 +370,14 @@ export const ResourcesPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             These resources are just the beginning. Join Eagle Nebula Startup Studio and get hands-on support as we co-found your venture together.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <button 
+            <button
               onClick={onBack}
               className="bg-white text-black px-8 py-4 rounded-full hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-lg font-medium"
             >
               <Rocket className="w-5 h-5" />
               Apply to Join the Studio
             </button>
-            <button 
+            <button
               onClick={onBack}
               className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-full hover:bg-white/20 transition-all duration-300 text-lg"
             >
@@ -383,6 +386,30 @@ export const ResourcesPage: React.FC<{ onBack: () => void }> = ({ onBack }) => {
           </div>
         </div>
       </section>
+
+      <footer className="max-w-7xl mx-auto py-8 px-6 relative z-20 border-t border-white/10">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-white text-sm">
+            © 2025 EAGLE NEBULA!. All rights reserved.
+          </p>
+          <div className="flex justify-center items-center gap-4">
+            <button className="text-white hover:text-white/60 transition-colors text-sm">
+              <Twitter className="w-5 h-5" />
+            </button>
+            <button className="text-white hover:text-white/60 transition-colors text-sm">
+              <Instagram className="w-5 h-5" />
+            </button>
+            <button className="text-white hover:text-white/60 transition-colors text-sm">
+              <Linkedin className="w-5 h-5" />
+            </button>
+          </div>
+          <div className="flex items-center gap-6">
+            <button className="text-white hover:text-white/60 transition-colors text-sm" onClick={onNavigateToBlogs}>
+              Blogs & News
+            </button>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 };
