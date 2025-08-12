@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Sparkles, Rocket, Star, Zap, Edit3, Save, X, Menu, ChevronDown } from 'lucide-react';
+import { Rocket, Star, Zap, Edit3, Save, X, Menu, ChevronDown } from 'lucide-react';
 
 
 interface EditableContent {
@@ -22,11 +22,12 @@ interface EditableContent {
   whatYouGetDescription: string;
   journeyTitle: string;
   journeyDescription: string;
+
   ctaTitle: string;
   ctaDescription: string;
 }
 
-export const Design4: React.FC = () => {
+export const Design4: React.FC<{ onNavigateToResources: () => void }> = ({ onNavigateToResources }) => {
   const parallaxRef = useRef<HTMLDivElement>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -56,6 +57,7 @@ export const Design4: React.FC = () => {
     whatYouGetDescription: '• A venture designed around you (not a template)\n• Shared ownership: we build it together and win together\n• A practical playbook and a system powered by Design Your Business with AI\n• AI‑enabled validation, content, and operations from day one\n• Access to our network, coaches, tools, and hands‑on operators who love the zero‑to‑one phase',
     journeyTitle: 'Your Journey With Us',
     journeyDescription: 'Step 1 — Apply: Tell us who you are, your story, and what excites you. We don\'t need a perfect idea—we need a spark.\n\nStep 2 — Discovery: We run the Design Your Business with AI process to map your founder profile (love, assets, work‑style, goals). You\'re the center of the design.\n\nStep 3 — Co‑Founding Sprint: We sit at the same table and build: brainstorm, validate, name, position, prototype—using AI for faster testing and execution.\n\nStep 4 — The Eagle Nebula Ecosystem: Join a supportive community of passionate Saudi founders, coaches, and operators. Share wins, ask real questions, get real answers.\n\nStep 5 — Launch & Grow: We launch together. We stand with you in operations, content, and growth. We share the risk—and the reward.',
+
     ctaTitle: 'Ready to Start Your Journey?',
     ctaDescription: 'You can chase the next trend and hope it fits you…\nor you can design the company that fits you—and build it with a co‑founder who\'s all‑in.\n\nApply to join Eagle Nebula Startup Studio today.\nThe best time to build your passionate business is now.'
   });
@@ -212,6 +214,12 @@ export const Design4: React.FC = () => {
                 Journey
               </button>
               <button
+                onClick={onNavigateToResources}
+                className="text-white/70 hover:text-white transition-colors duration-300"
+              >
+                Resources & Gifts
+              </button>
+              <button
                 onClick={() => scrollToSection('cta')}
                 className="text-white/70 hover:text-white transition-colors duration-300"
               >
@@ -261,6 +269,7 @@ export const Design4: React.FC = () => {
                 <button onClick={() => scrollToSection('methodology')} className="text-white/70 hover:text-white transition-colors text-left">Methodology</button>
                 <button onClick={() => scrollToSection('what-you-get')} className="text-white/70 hover:text-white transition-colors text-left">What You Get</button>
                 <button onClick={() => scrollToSection('journey')} className="text-white/70 hover:text-white transition-colors text-left">Journey</button>
+                <button onClick={onNavigateToResources} className="text-white/70 hover:text-white transition-colors text-left">Resources & Gifts</button>
                 <button onClick={() => scrollToSection('cta')} className="text-white/70 hover:text-white transition-colors text-left">Apply</button>
               </div>
             </nav>
@@ -682,6 +691,7 @@ export const Design4: React.FC = () => {
           </div>
         </div>
       </section>
+
 
       {/* Final CTA Section */}
       <section id="cta" className="py-32 px-6 relative z-20"> {/* Increased z-index */}
