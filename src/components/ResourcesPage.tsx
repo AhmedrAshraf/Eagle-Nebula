@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { Sparkles, Rocket, Star, Edit3, ArrowLeft, Download, ExternalLink, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { Sparkles, Rocket, Star, Edit3, ArrowLeft, Download, ExternalLink, Twitter, Youtube, Linkedin } from 'lucide-react';
 
 interface ResourceItem {
   id: string;
@@ -394,10 +394,10 @@ export const ResourcesPage: React.FC<{
           </p>
           <div className="flex justify-center items-center gap-4">
             <button className="text-white hover:text-white/60 transition-colors text-sm">
-              <Twitter className="w-5 h-5" />
+              <Youtube className="w-5 h-5" />
             </button>
             <button className="text-white hover:text-white/60 transition-colors text-sm">
-              <Instagram className="w-5 h-5" />
+              <Twitter className="w-5 h-5" />
             </button>
             <button className="text-white hover:text-white/60 transition-colors text-sm">
               <Linkedin className="w-5 h-5" />

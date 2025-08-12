@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { ArrowLeft, Edit3, Plus, Calendar, User, Tag, Save, X, Trash2, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { ArrowLeft, Edit3, Plus, Calendar, User, Tag, Save, X, Trash2, Twitter, Youtube, Linkedin } from 'lucide-react';
 
 interface BlogPost {
     id: string;
@@ -637,10 +637,10 @@ export const BlogsPage: React.FC<{
                     </p>
                     <div className="flex justify-center items-center gap-4">
                         <button className="text-white hover:text-white/60 transition-colors text-sm">
-                            <Twitter className="w-5 h-5" />
+                            <Youtube className="w-5 h-5" />
                         </button>
                         <button className="text-white hover:text-white/60 transition-colors text-sm">
-                            <Instagram className="w-5 h-5" />
+                            <Twitter className="w-5 h-5" />
                         </button>
                         <button className="text-white hover:text-white/60 transition-colors text-sm">
                             <Linkedin className="w-5 h-5" />

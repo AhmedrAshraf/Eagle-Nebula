@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Rocket, Star, Zap, Edit3, Save, X, Menu, ChevronDown, Twitter, Instagram, Linkedin } from 'lucide-react';
+import { Rocket, Star, Zap, Edit3, Save, X, Menu, ChevronDown, Twitter, Linkedin, Youtube } from 'lucide-react';
 
 
 interface EditableContent {
@@ -735,10 +735,10 @@ export const Design4: React.FC<{
           </p>
           <div className="flex justify-center items-center gap-4">
             <button className="text-white hover:text-white/60 transition-colors text-sm">
-              <Twitter className="w-5 h-5" />
+              <Youtube className="w-5 h-5" />
             </button>
             <button className="text-white hover:text-white/60 transition-colors text-sm">
-              <Instagram className="w-5 h-5" />
+              <Twitter className="w-5 h-5" />
             </button>
             <button className="text-white hover:text-white/60 transition-colors text-sm">
               <Linkedin className="w-5 h-5" />
