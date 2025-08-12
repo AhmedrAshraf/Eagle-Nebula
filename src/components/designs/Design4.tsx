@@ -123,6 +123,17 @@ export const Design4: React.FC = () => {
     placeholder?: string;
   }> = ({ value, onChange, className = '', multiline = false, placeholder = '' }) => {
     if (!isEditing) {
+      // For multiline text, use CSS to preserve line breaks
+      if (multiline) {
+        return (
+          <span 
+            className={`${className} whitespace-pre-line`}
+            style={{ whiteSpace: 'pre-line' }}
+          >
+            {value}
+          </span>
+        );
+      }
       return <span className={className}>{value}</span>;
     }
 
