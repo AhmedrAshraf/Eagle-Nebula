@@ -208,12 +208,6 @@ export const Design4: React.FC<{
                 Methodology
               </button>
               <button
-                onClick={() => scrollToSection('what-you-get')}
-                className="text-white/70 hover:text-white transition-colors duration-300"
-              >
-                What You Get
-              </button>
-              <button
                 onClick={() => scrollToSection('journey')}
                 className="text-white/70 hover:text-white transition-colors duration-300"
               >
