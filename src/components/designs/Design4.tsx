@@ -478,7 +478,7 @@ export const Design4: React.FC<{
       </section>
 
       {/* Methodology Section */}
-      <section id="focus" className="py-32 px-6 relative z-20">
+      <section id="methodology" className="py-32 px-6 relative z-20">
         <div className="max-w-6xl mx-auto">
           {/* <div className="lg:order-1 relative">
           <div className="w-full h-[700px] rounded-3xl overflow-hidden mb-20">
