@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Rocket, Star, Zap, Edit3, Save, X, Menu, ChevronDown, Twitter, Linkedin, Youtube } from 'lucide-react';
+import { Rocket, Star, Zap, Edit3, Save, X, Menu, ChevronDown, Twitter, Linkedin, Youtube, Settings, Lock } from 'lucide-react';
 
 
 interface EditableContent {
@@ -34,6 +34,10 @@ export const Design4: React.FC<{
   const parallaxRef = useRef<HTMLDivElement>(null);
   const [isEditing, setIsEditing] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [showAdminPanel, setShowAdminPanel] = useState(false);
+  const [adminCode, setAdminCode] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showSecretButton, setShowSecretButton] = useState(false);
   const [content, setContent] = useState<EditableContent>({
     heroTitle: 'Eagle Nebula Startup Studio',
     heroSubtitle: 'Where Passionate Entrepreneurs Are Created',
@@ -85,6 +89,38 @@ export const Design4: React.FC<{
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  // Secret admin access - triple click on logo to show admin button
+  const [logoClickCount, setLogoClickCount] = useState(0);
+  const [lastClickTime, setLastClickTime] = useState(0);
+
+  const handleLogoClick = () => {
+    const currentTime = Date.now();
+    if (currentTime - lastClickTime > 1000) {
+      setLogoClickCount(1);
+    } else {
+      setLogoClickCount(prev => prev + 1);
+    }
+    setLastClickTime(currentTime);
+
+    if (logoClickCount === 3) {
+      setShowSecretButton(true);
+      setTimeout(() => setShowSecretButton(false), 5000); // Hide after 5 seconds
+      setLogoClickCount(0);
+    }
+  };
+
+  const handleAdminCodeSubmit = () => {
+    // Secret admin code: "eagle2025"
+    if (adminCode === 'eagle2025') {
+      setIsAdmin(true);
+      setShowAdminPanel(false);
+      setAdminCode('');
+    } else {
+      alert('Invalid admin code');
+      setAdminCode('');
+    }
+  };
 
   const handleContentChange = (field: keyof EditableContent, value: string) => {
     if (field === 'focusFields') {
@@ -173,11 +209,58 @@ export const Design4: React.FC<{
       {/* Background Overlay */}
       <div className="fixed inset-0 bg-black/50 z-10" /> {/* Added dark overlay */}
 
+      {/* Admin Panel Modal */}
+      {showAdminPanel && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          <div className="absolute inset-0 bg-black/80" onClick={() => setShowAdminPanel(false)} />
+          <div className="relative bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 max-w-md w-full mx-4">
+            <div className="text-center">
+              <Lock className="w-12 h-12 text-white mx-auto mb-4" />
+              <h3 className="text-2xl font-light text-white mb-6">Admin Access</h3>
+              <p className="text-white/70 mb-6">Enter the secret admin code to access editing features</p>
+              
+              <div className="space-y-4">
+                <input
+                  type="password"
+                  value={adminCode}
+                  onChange={(e) => setAdminCode(e.target.value)}
+                  placeholder="Enter admin code..."
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40"
+                  onKeyPress={(e) => e.key === 'Enter' && handleAdminCodeSubmit()}
+                />
+                
+                <div className="flex space-x-3">
+                  <button
+                    onClick={handleAdminCodeSubmit}
+                    className="flex-1 bg-white text-black px-4 py-3 rounded-lg hover:bg-white/90 transition-colors font-medium"
+                  >
+                    Access Admin
+                  </button>
+                  <button
+                    onClick={() => setShowAdminPanel(false)}
+                    className="flex-1 bg-white/10 text-white px-4 py-3 rounded-lg hover:bg-white/20 transition-colors border border-white/20"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </div>
+              
+              <div className="mt-6 text-xs text-white/50">
+                <p>💡 Hint: The code is related to the year and the company name</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header Navigation */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="text-white font-light text-xl tracking-wider">
+            <div 
+              className="text-white font-light text-xl tracking-wider cursor-pointer hover:text-white/80 transition-colors"
+              onClick={handleLogoClick}
+            >
               EAGLE NEBULA
             </div>
 
@@ -221,27 +304,41 @@ export const Design4: React.FC<{
               </button>
             </nav>
 
-            {/* Edit Button & Mobile Menu */}
+            {/* Admin & Mobile Menu */}
             <div className="flex items-center space-x-4">
-              <button
-                onClick={() => setIsEditing(!isEditing)}
-                className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${isEditing
-                  ? 'bg-green-500/20 text-green-400 border border-green-400/30'
-                  : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
-                  }`}
-              >
-                {isEditing ? (
-                  <>
-                    <Save className="w-4 h-4" />
-                    <span className="hidden sm:inline">Save</span>
-                  </>
-                ) : (
-                  <>
-                    <Edit3 className="w-4 h-4" />
-                    <span className="hidden sm:inline">Edit</span>
-                  </>
-                )}
-              </button>
+              {/* Secret Admin Button - Only shows after triple click on logo */}
+              {showSecretButton && (
+                <button
+                  onClick={() => setShowAdminPanel(true)}
+                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/20 text-red-400 border border-red-400/30 transition-all duration-300 animate-pulse"
+                >
+                  <Lock className="w-4 h-4" />
+                  <span className="hidden sm:inline">Admin</span>
+                </button>
+              )}
+
+              {/* Edit Button - Only shows when admin is authenticated */}
+              {isAdmin && (
+                <button
+                  onClick={() => setIsEditing(!isEditing)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${isEditing
+                    ? 'bg-green-500/20 text-green-400 border border-green-400/30'
+                    : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
+                    }`}
+                >
+                  {isEditing ? (
+                    <>
+                      <Save className="w-4 h-4" />
+                      <span className="hidden sm:inline">Save</span>
+                    </>
+                  ) : (
+                    <>
+                      <Edit3 className="w-4 h-4" />
+                      <span className="hidden sm:inline">Edit</span>
+                    </>
+                  )}
+                </button>
+              )}
 
               {/* Mobile Menu Button */}
               <button
