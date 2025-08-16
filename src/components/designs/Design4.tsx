@@ -371,7 +371,7 @@ export const Design4: React.FC<{
       {/* What We Are Section */}
       <section id="who-we-are" className="py-4 px-6 md:py-32 md:px-6 relative z-20"> {/* Increased z-index */}
         <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-1 gap-16  h-[140vh]  items-center">
+          <div className="grid lg:grid-cols-1 gap-16 h-[60vh] items-center">
             <div data-speed="0.1">
               <h2 className="text-5xl font-extralight text-white mb-8 tracking-wide">
                 <EditableText
@@ -390,16 +390,6 @@ export const Design4: React.FC<{
               <div className="flex items-center gap-4">
                 <Zap className="w-6 h-6 text-white" />
                 <span className="text-white/60">Co-founding, not just coaching</span>
-              </div>
-            </div>
-            <div data-speed="0.2" className="relative mt-24 md:mt-12">
-              <div className="w-full h-96 bg-gradient-to-br from-purple-500/20 to-blue-500/20 rounded-3xl backdrop-blur-sm border border-white/10 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-24 h-24 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <Star className="w-12 h-12 text-white animate-pulse" />
-                  </div>
-                  <p className="text-white/60">Startup Studio Concept</p>
-                </div>
               </div>
             </div>
           </div>
