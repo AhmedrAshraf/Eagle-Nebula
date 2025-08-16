@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Rocket, Star, Zap, Edit3, Save, X, Menu, ChevronDown, Twitter, Linkedin, Youtube, Settings, Lock } from 'lucide-react';
+import { Rocket, Star, Zap, Edit3, Save, X, Menu, ChevronDown, Twitter, Linkedin, Youtube, Settings, Lock, RotateCcw } from 'lucide-react';
 
 
 interface EditableContent {
@@ -38,6 +38,7 @@ export const Design4: React.FC<{
   const [adminCode, setAdminCode] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
   const [showSecretButton, setShowSecretButton] = useState(false);
+  const [originalContent, setOriginalContent] = useState<EditableContent | null>(null);
   const [content, setContent] = useState<EditableContent>({
     heroTitle: 'Eagle Nebula Startup Studio',
     heroSubtitle: 'Where Passionate Entrepreneurs Are Created',
@@ -128,6 +129,18 @@ export const Design4: React.FC<{
       return;
     }
     setContent(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleDiscardChanges = () => {
+    if (originalContent) {
+      setContent(originalContent);
+    }
+    setIsEditing(false);
+  };
+
+  const handleStartEditing = () => {
+    setOriginalContent(content);
+    setIsEditing(true);
   };
 
   const handleFieldChange = (index: number, value: string) => {
@@ -244,10 +257,6 @@ export const Design4: React.FC<{
                   </button>
                 </div>
               </div>
-              
-              <div className="mt-6 text-xs text-white/50">
-                <p>💡 Hint: The code is related to the year and the company name</p>
-              </div>
             </div>
           </div>
         </div>
@@ -317,27 +326,36 @@ export const Design4: React.FC<{
                 </button>
               )}
 
-              {/* Edit Button - Only shows when admin is authenticated */}
+              {/* Edit/Save/Discard Buttons - Only shows when admin is authenticated */}
               {isAdmin && (
-                <button
-                  onClick={() => setIsEditing(!isEditing)}
-                  className={`flex items-center gap-2 px-4 py-2 rounded-full transition-all duration-300 ${isEditing
-                    ? 'bg-green-500/20 text-green-400 border border-green-400/30'
-                    : 'bg-white/10 text-white border border-white/20 hover:bg-white/20'
-                    }`}
-                >
+                <div className="flex items-center gap-2">
                   {isEditing ? (
                     <>
-                      <Save className="w-4 h-4" />
-                      <span className="hidden sm:inline">Save</span>
+                      <button
+                        onClick={handleDiscardChanges}
+                        className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/20 text-red-400 border border-red-400/30 hover:bg-red-500/30 transition-all duration-300"
+                      >
+                        <RotateCcw className="w-4 h-4" />
+                        <span className="hidden sm:inline">Discard</span>
+                      </button>
+                      <button
+                        onClick={() => setIsEditing(false)}
+                        className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 text-green-400 border border-green-400/30 hover:bg-green-500/30 transition-all duration-300"
+                      >
+                        <Save className="w-4 h-4" />
+                        <span className="hidden sm:inline">Save</span>
+                      </button>
                     </>
                   ) : (
-                    <>
+                    <button
+                      onClick={handleStartEditing}
+                      className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-all duration-300"
+                    >
                       <Edit3 className="w-4 h-4" />
                       <span className="hidden sm:inline">Edit</span>
-                    </>
+                    </button>
                   )}
-                </button>
+                </div>
               )}
 
               {/* Mobile Menu Button */}
