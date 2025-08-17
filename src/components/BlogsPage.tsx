@@ -48,9 +48,9 @@ interface EditableContent {
 }
 
 export const BlogsPage: React.FC<{ 
-  onNavigateToHome: () => void;
+  onBack: () => void;
   onNavigateToResources: () => void;
-}> = ({ onNavigateToHome, onNavigateToResources }) => {
+}> = ({ onBack, onNavigateToResources }) => {
     const parallaxRef = useRef<HTMLDivElement>(null);
     const hasMountedRef = useRef(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -371,7 +371,7 @@ export const BlogsPage: React.FC<{
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-4">
                             <button
-                                onClick={onNavigateToHome}
+                                onClick={onBack}
                                 className="text-white/70 hover:text-white transition-colors duration-300 flex items-center gap-2"
                             >
                                 <ArrowLeft className="w-5 h-5" />
@@ -866,7 +866,7 @@ export const BlogsPage: React.FC<{
                     </p>
                     <div className="flex flex-col sm:flex-row gap-6 justify-center">
                         <button
-                            onClick={onNavigateToHome}
+                            onClick={onBack}
                             className="bg-white text-black px-8 py-4 rounded-full hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-lg font-medium"
                         >
                             Join the Studio
