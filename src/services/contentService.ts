@@ -20,6 +20,19 @@ export interface ResourceCard {
   updated_at: string;
 }
 
+export interface BlogPost {
+  id: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  author: string;
+  date: string;
+  category: string;
+  featured: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
 export class ContentService {
   // Fetch all content from database
   static async fetchAllContent(): Promise<Record<string, any>> {
@@ -399,6 +412,142 @@ export class ContentService {
       return true;
     } catch (error) {
       console.error('Error initializing resource cards:', error);
+      return false;
+    }
+  }
+
+  // Blog Posts Management
+  static async getBlogPosts(): Promise<BlogPost[]> {
+    try {
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      return data || [];
+    } catch (error) {
+      console.error('Error fetching blog posts:', error);
+      return [];
+    }
+  }
+
+  static async addBlogPost(post: Omit<BlogPost, 'id' | 'created_at' | 'updated_at'>): Promise<BlogPost | null> {
+    try {
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .insert([post])
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error adding blog post:', error);
+      return null;
+    }
+  }
+
+  static async updateBlogPost(id: string, updates: Partial<BlogPost>): Promise<BlogPost | null> {
+    try {
+      const { data, error } = await supabase
+        .from('blog_posts')
+        .update(updates)
+        .eq('id', id)
+        .select()
+        .single();
+
+      if (error) throw error;
+      return data;
+    } catch (error) {
+      console.error('Error updating blog post:', error);
+      return null;
+    }
+  }
+
+  static async deleteBlogPost(id: string): Promise<boolean> {
+    try {
+      const { error } = await supabase
+        .from('blog_posts')
+        .delete()
+        .eq('id', id);
+
+      if (error) throw error;
+      return true;
+    } catch (error) {
+      console.error('Error deleting blog post:', error);
+      return false;
+    }
+  }
+
+  static async initializeBlogPosts(): Promise<boolean> {
+    try {
+      // Check if blog posts already exist
+      const { data: existingPosts, error: checkError } = await supabase
+        .from('blog_posts')
+        .select('id')
+        .limit(1);
+
+      if (checkError) {
+        console.error('Error checking blog posts:', checkError);
+        return false;
+      }
+
+      // If posts already exist, don't initialize
+      if (existingPosts && existingPosts.length > 0) {
+        console.log('Blog posts already exist, skipping initialization');
+        return true;
+      }
+
+      // Insert default blog posts
+      const defaultPosts = [
+        {
+          title: 'The Future of AI in Saudi Entrepreneurship',
+          excerpt: 'Discover how artificial intelligence is transforming the Saudi startup ecosystem and creating new opportunities for passionate entrepreneurs.',
+          content: 'The landscape of entrepreneurship in Saudi Arabia is rapidly evolving, with artificial intelligence playing a pivotal role in this transformation. From automated business processes to AI-powered market analysis, the opportunities for innovative startups are unprecedented.',
+          author: 'Eagle Nebula Team',
+          date: '2024-01-15',
+          category: 'AI & Technology',
+          featured: true
+        },
+        {
+          title: 'Building Your Business Around Passion: A Framework',
+          excerpt: 'Learn our proven methodology for designing businesses that align with your personal passions, skills, and long-term goals.',
+          content: 'Most entrepreneurs start with market trends and try to fit themselves into opportunities. We believe in starting with the founder - understanding your unique combination of passion, skills, and vision to create a business that truly fits you.',
+          author: 'Sarah Al-Rashid',
+          date: '2024-01-10',
+          category: 'Business Strategy',
+          featured: true
+        },
+        {
+          title: 'Vision 2030 and the Startup Revolution',
+          excerpt: 'How Saudi Vision 2030 is creating unprecedented opportunities for innovative startups and passionate entrepreneurs.',
+          content: 'Saudi Arabia\'s Vision 2030 has opened doors for entrepreneurs like never before. From NEOM to the Red Sea Project, the Kingdom is actively supporting innovative startups that align with its ambitious goals.',
+          author: 'Ahmed Al-Fahad',
+          date: '2024-01-05',
+          category: 'Industry News',
+          featured: false
+        },
+        {
+          title: 'From Idea to MVP: Our Co-Founding Process',
+          excerpt: 'Take a behind-the-scenes look at how we work with founders to transform ideas into viable products and businesses.',
+          content: 'The journey from idea to minimum viable product is crucial for any startup. At Eagle Nebula, we\'ve refined this process to help passionate entrepreneurs build faster and smarter.',
+          author: 'Eagle Nebula Team',
+          date: '2023-12-28',
+          category: 'Case Studies',
+          featured: false
+        }
+      ];
+
+      const { error } = await supabase
+        .from('blog_posts')
+        .insert(defaultPosts);
+
+      if (error) throw error;
+      console.log('Blog posts initialized successfully');
+      return true;
+    } catch (error) {
+      console.error('Error initializing blog posts:', error);
       return false;
     }
   }
