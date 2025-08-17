@@ -66,9 +66,9 @@ const EditableTextarea = React.memo<{
 });
 
 export const ResourcesPage: React.FC<{ 
-  onNavigateToHome: () => void;
+  onBack: () => void;
   onNavigateToBlogs: () => void;
-}> = ({ onNavigateToHome, onNavigateToBlogs }) => {
+}> = ({ onBack, onNavigateToBlogs }) => {
   const parallaxRef = useRef<HTMLDivElement>(null);
   const hasMountedRef = useRef(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -530,7 +530,7 @@ export const ResourcesPage: React.FC<{
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <button
-                onClick={onNavigateToHome}
+                onClick={onBack}
                 className="text-white/70 hover:text-white transition-colors duration-300 flex items-center gap-2"
               >
                 <ArrowLeft className="w-5 h-5" />
@@ -826,7 +826,7 @@ export const ResourcesPage: React.FC<{
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <button
-              onClick={onNavigateToHome}
+              onClick={onBack}
               className="bg-white text-black px-8 py-4 rounded-full hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-lg font-medium"
             >
               <Rocket className="w-5 h-5" />
@@ -842,7 +842,7 @@ export const ResourcesPage: React.FC<{
               )}
             </button>
             <button
-              onClick={onNavigateToHome}
+              onClick={onBack}
               className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-full hover:bg-white/20 transition-all duration-300 text-lg"
             >
               {isEditing ? (
