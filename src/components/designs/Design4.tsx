@@ -186,12 +186,12 @@ export const Design4: React.FC<{
           focusSubTitle: contentMap.focus?.subtitle || '',
           focusDescription: contentMap.focus?.description || '',
           focusFields: contentMap.focus?.fields ? JSON.parse(contentMap.focus.fields) : [
-            'Have a spark they can\'t ignore — a topic, craft, or mission that excites them',
-            'Are ready to commit to building a business around their unique skills, creativity, and vision',
-            'See entrepreneurship as a lifestyle and a calling, not just a quick way to make money',
-            'Are open to using AI and modern tools to move faster, smarter, and with less waste',
-            'Value collaboration and want a co-founder who\'s as invested in their success as they are'
-          ],
+      'Have a spark they can\'t ignore — a topic, craft, or mission that excites them',
+      'Are ready to commit to building a business around their unique skills, creativity, and vision',
+      'See entrepreneurship as a lifestyle and a calling, not just a quick way to make money',
+      'Are open to using AI and modern tools to move faster, smarter, and with less waste',
+      'Value collaboration and want a co-founder who\'s as invested in their success as they are'
+    ],
           focusFounders: contentMap.focus?.founders || '',
           methodologyTitle: contentMap.methodology?.title || '',
           methodologySubTitle: contentMap.methodology?.subtitle || '',
@@ -247,7 +247,7 @@ export const Design4: React.FC<{
   useEffect(() => {
     // Only scroll to top when component mounts (not when editing starts)
     if (!hasMountedRef.current && !isEditing) {
-      window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
       hasMountedRef.current = true;
     }
 
@@ -440,17 +440,17 @@ export const Design4: React.FC<{
 
   // Show loading state while fetching content
   if (isLoading) {
-    return (
+      return (
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-white text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
           <p className="text-lg">Loading content...</p>
         </div>
       </div>
-    );
-  }
+      );
+    }
 
-  return (
+    return (
     <div ref={parallaxRef} className="relative" onKeyDown={(e) => {
       // Prevent form submission on Enter key
       if (e.key === 'Enter' && e.target instanceof HTMLInputElement) {
@@ -688,10 +688,10 @@ export const Design4: React.FC<{
             <h1 className="text-4xl md:text-6xl font-extralight text-white mb-6 tracking-wide">
               {isEditing ? (
                 <EditableInput
-                  value={content.heroTitle}
-                  onChange={(value) => handleContentChange('heroTitle', value)}
-                  className="block"
-                />
+                value={content.heroTitle}
+                onChange={(value) => handleContentChange('heroTitle', value)}
+                className="block"
+              />
               ) : (
                 <span className="block">{content.heroTitle}</span>
               )}
@@ -699,9 +699,9 @@ export const Design4: React.FC<{
             <div className="text-2xl md:text-3xl text-white/80 font-light tracking-wide mb-8">
               {isEditing ? (
                 <EditableInput
-                  value={content.heroSubtitle}
-                  onChange={(value) => handleContentChange('heroSubtitle', value)}
-                />
+                value={content.heroSubtitle}
+                onChange={(value) => handleContentChange('heroSubtitle', value)}
+              />
               ) : (
                 <span>{content.heroSubtitle}</span>
               )}
@@ -709,10 +709,10 @@ export const Design4: React.FC<{
             <p className="text-xl text-white/80 max-w-3xl mx-auto mb-12 leading-relaxed font-light">
               {isEditing ? (
                 <EditableTextarea
-                  value={content.heroDescription}
-                  onChange={(value) => handleContentChange('heroDescription', value)}
-                  className="w-full"
-                />
+                value={content.heroDescription}
+                onChange={(value) => handleContentChange('heroDescription', value)}
+                className="w-full"
+              />
               ) : (
                 <span className="w-full whitespace-pre-line" style={{ whiteSpace: 'pre-line' }}>
                   {content.heroDescription}
@@ -729,10 +729,10 @@ export const Design4: React.FC<{
               <Rocket className="w-5 h-5 group-hover:rotate-12 transition-transform duration-300" />
               {isEditing ? (
                 <EditableInput
-                  value={content.heroApplyButton}
-                  onChange={(value) => handleContentChange('heroApplyButton', value)}
-                  className="block"
-                />
+                value={content.heroApplyButton}
+                onChange={(value) => handleContentChange('heroApplyButton', value)}
+                className="block"
+              />
               ) : (
                 <span className="block">{content.heroApplyButton}</span>
               )}
@@ -741,11 +741,11 @@ export const Design4: React.FC<{
               <Star className="w-5 h-5" />
               {isEditing ? (
                 <EditableInput
-                  value={content.heroLearnButton}
-                  onChange={(value) => handleContentChange('heroLearnButton', value)}
-                  className="block"
-                  textColor="text-black"
-                />
+                value={content.heroLearnButton}
+                onChange={(value) => handleContentChange('heroLearnButton', value)}
+                className="block"
+                textColor="text-black"
+              />
               ) : (
                 <span className="block text-black">{content.heroLearnButton}</span>
               )}
@@ -768,9 +768,9 @@ export const Design4: React.FC<{
               <h2 className="text-5xl font-extralight text-white mb-8 tracking-wide">
                 {isEditing ? (
                   <EditableInput
-                    value={content.whatWeAreTitle}
-                    onChange={(value) => handleContentChange('whatWeAreTitle', value)}
-                  />
+                  value={content.whatWeAreTitle}
+                  onChange={(value) => handleContentChange('whatWeAreTitle', value)}
+                />
                 ) : (
                   <span>{content.whatWeAreTitle}</span>
                 )}
@@ -778,10 +778,10 @@ export const Design4: React.FC<{
               <p className="text-xl text-white/70 leading-relaxed mb-8 font-light">
                 {isEditing ? (
                   <EditableTextarea
-                    value={content.whatWeAreDescription}
-                    onChange={(value) => handleContentChange('whatWeAreDescription', value)}
-                    className="w-full"
-                  />
+                  value={content.whatWeAreDescription}
+                  onChange={(value) => handleContentChange('whatWeAreDescription', value)}
+                  className="w-full"
+                />
                 ) : (
                   <span className="w-full whitespace-pre-line" style={{ whiteSpace: 'pre-line' }}>
                     {content.whatWeAreDescription}
@@ -804,9 +804,9 @@ export const Design4: React.FC<{
             <h2 className="text-5xl font-extralight text-white mb-8 tracking-wide">
                               {isEditing ? (
                   <EditableInput
-                    value={content.focusTitle}
-                    onChange={(value) => handleContentChange('focusTitle', value)}
-                  />
+                value={content.focusTitle}
+                onChange={(value) => handleContentChange('focusTitle', value)}
+              />
                 ) : (
                   <span>{content.focusTitle}</span>
                 )}
@@ -814,9 +814,9 @@ export const Design4: React.FC<{
             <h3 className="text-4xl font-extralight text-white mb-8 tracking-wide text-center mt-12">
                               {isEditing ? (
                   <EditableInput
-                    value={content.focusSubTitle}
-                    onChange={(value) => handleContentChange('focusSubTitle', value)}
-                  />
+                value={content.focusSubTitle}
+                onChange={(value) => handleContentChange('focusSubTitle', value)}
+              />
                 ) : (
                   <span>{content.focusSubTitle}</span>
                 )}
@@ -824,10 +824,10 @@ export const Design4: React.FC<{
             <p className="text-xl text-white/70 leading-relaxed max-w-4xl mx-auto font-light mb-12">
               {isEditing ? (
                 <EditableTextarea
-                  value={content.focusDescription}
-                  onChange={(value) => handleContentChange('focusDescription', value)}
-                  className="w-full"
-                />
+                value={content.focusDescription}
+                onChange={(value) => handleContentChange('focusDescription', value)}
+                className="w-full"
+              />
               ) : (
                 <span className="w-full whitespace-pre-line" style={{ whiteSpace: 'pre-line' }}>
                   {content.focusDescription}
@@ -847,10 +847,10 @@ export const Design4: React.FC<{
                   <p className="text-sm font-light text-white/80 leading-relaxed">
                     {isEditing ? (
                       <EditableInput
-                        value={field}
-                        onChange={(value) => handleFieldChange(index, value)}
-                        className="block"
-                      />
+                      value={field}
+                      onChange={(value) => handleFieldChange(index, value)}
+                      className="block"
+                    />
                     ) : (
                       <span className="block">{field}</span>
                     )}
@@ -873,10 +873,10 @@ export const Design4: React.FC<{
                 <p className="text-white/80 leading-relaxed font-light text-lg">
                   {isEditing ? (
                     <EditableTextarea
-                      value={content.focusFounders}
-                      onChange={(value) => handleContentChange('focusFounders', value)}
-                      className="w-full"
-                    />
+                    value={content.focusFounders}
+                    onChange={(value) => handleContentChange('focusFounders', value)}
+                    className="w-full"
+                  />
                   ) : (
                     <span className="w-full whitespace-pre-line" style={{ whiteSpace: 'pre-line' }}>
                       {content.focusFounders}
@@ -917,9 +917,9 @@ export const Design4: React.FC<{
               <h2 className="text-5xl font-extralight text-white mb-8 tracking-wide text-center">
                 {isEditing ? (
                   <EditableInput
-                    value={content.methodologyTitle}
-                    onChange={(value) => handleContentChange('methodologyTitle', value)}
-                  />
+                  value={content.methodologyTitle}
+                  onChange={(value) => handleContentChange('methodologyTitle', value)}
+                />
                 ) : (
                   <span>{content.methodologyTitle}</span>
                 )}
@@ -927,9 +927,9 @@ export const Design4: React.FC<{
               <h3 className="text-4xl font-extralight text-white mb-8 tracking-wide text-center mt-12">
                 {isEditing ? (
                   <EditableInput
-                    value={content.methodologySubTitle}
-                    onChange={(value) => handleContentChange('methodologySubTitle', value)}
-                  />
+                  value={content.methodologySubTitle}
+                  onChange={(value) => handleContentChange('methodologySubTitle', value)}
+                />
                 ) : (
                   <span>{content.methodologySubTitle}</span>
                 )}
@@ -937,10 +937,10 @@ export const Design4: React.FC<{
               <p className="text-xl text-white/70 leading-relaxed mb-8 font-light">
                 {isEditing ? (
                   <EditableTextarea
-                    value={content.methodologyDescription}
-                    onChange={(value) => handleContentChange('methodologyDescription', value)}
-                    className="w-full"
-                  />
+                  value={content.methodologyDescription}
+                  onChange={(value) => handleContentChange('methodologyDescription', value)}
+                  className="w-full"
+                />
                 ) : (
                   <span className="w-full whitespace-pre-line" style={{ whiteSpace: 'pre-line' }}>
                     {content.methodologyDescription}
@@ -955,10 +955,10 @@ export const Design4: React.FC<{
                   <h3 className="text-lg font-light text-white mb-4">
                     {isEditing ? (
                       <EditableInput
-                        value={content.methodologyPillar1Title}
-                        onChange={(value) => handleContentChange('methodologyPillar1Title', value)}
-                        className="block"
-                      />
+                      value={content.methodologyPillar1Title}
+                      onChange={(value) => handleContentChange('methodologyPillar1Title', value)}
+                      className="block"
+                    />
                     ) : (
                       <span className="block">{content.methodologyPillar1Title}</span>
                     )}
@@ -966,10 +966,10 @@ export const Design4: React.FC<{
                   <p className="text-white/60 text-sm leading-relaxed">
                     {isEditing ? (
                       <EditableInput
-                        value={content.methodologyPillar1Desc}
-                        onChange={(value) => handleContentChange('methodologyPillar1Desc', value)}
-                        className="block"
-                      />
+                      value={content.methodologyPillar1Desc}
+                      onChange={(value) => handleContentChange('methodologyPillar1Desc', value)}
+                      className="block"
+                    />
                     ) : (
                       <span className="block">{content.methodologyPillar1Desc}</span>
                     )}
@@ -983,10 +983,10 @@ export const Design4: React.FC<{
                   <h3 className="text-lg font-light text-white mb-4">
                     {isEditing ? (
                       <EditableInput
-                        value={content.methodologyPillar2Title}
-                        onChange={(value) => handleContentChange('methodologyPillar2Title', value)}
-                        className="block"
-                      />
+                      value={content.methodologyPillar2Title}
+                      onChange={(value) => handleContentChange('methodologyPillar2Title', value)}
+                      className="block"
+                    />
                     ) : (
                       <span className="block">{content.methodologyPillar2Title}</span>
                     )}
@@ -994,10 +994,10 @@ export const Design4: React.FC<{
                   <p className="text-white/60 text-sm leading-relaxed">
                     {isEditing ? (
                       <EditableInput
-                        value={content.methodologyPillar2Desc}
-                        onChange={(value) => handleContentChange('methodologyPillar2Desc', value)}
-                        className="block"
-                      />
+                      value={content.methodologyPillar2Desc}
+                      onChange={(value) => handleContentChange('methodologyPillar2Desc', value)}
+                      className="block"
+                    />
                     ) : (
                       <span className="block">{content.methodologyPillar2Desc}</span>
                     )}
@@ -1011,10 +1011,10 @@ export const Design4: React.FC<{
                   <h3 className="text-lg font-light text-white mb-4">
                     {isEditing ? (
                       <EditableInput
-                        value={content.methodologyPillar3Title}
-                        onChange={(value) => handleContentChange('methodologyPillar3Title', value)}
-                        className="block"
-                      />
+                      value={content.methodologyPillar3Title}
+                      onChange={(value) => handleContentChange('methodologyPillar3Title', value)}
+                      className="block"
+                    />
                     ) : (
                       <span className="block">{content.methodologyPillar3Title}</span>
                     )}
@@ -1022,10 +1022,10 @@ export const Design4: React.FC<{
                   <p className="text-white/60 text-sm leading-relaxed">
                     {isEditing ? (
                       <EditableInput
-                        value={content.methodologyPillar3Desc}
-                        onChange={(value) => handleContentChange('methodologyPillar3Desc', value)}
-                        className="block"
-                      />
+                      value={content.methodologyPillar3Desc}
+                      onChange={(value) => handleContentChange('methodologyPillar3Desc', value)}
+                      className="block"
+                    />
                     ) : (
                       <span className="block">{content.methodologyPillar3Desc}</span>
                     )}
@@ -1039,10 +1039,10 @@ export const Design4: React.FC<{
                   <h3 className="text-lg font-light text-white mb-4">
                     {isEditing ? (
                       <EditableInput
-                        value={content.methodologyPillar4Title}
-                        onChange={(value) => handleContentChange('methodologyPillar4Title', value)}
-                        className="block"
-                      />
+                      value={content.methodologyPillar4Title}
+                      onChange={(value) => handleContentChange('methodologyPillar4Title', value)}
+                      className="block"
+                    />
                     ) : (
                       <span className="block">{content.methodologyPillar4Title}</span>
                     )}
@@ -1050,10 +1050,10 @@ export const Design4: React.FC<{
                   <p className="text-white/60 text-sm leading-relaxed">
                     {isEditing ? (
                       <EditableInput
-                        value={content.methodologyPillar4Desc}
-                        onChange={(value) => handleContentChange('methodologyPillar4Desc', value)}
-                        className="block"
-                      />
+                      value={content.methodologyPillar4Desc}
+                      onChange={(value) => handleContentChange('methodologyPillar4Desc', value)}
+                      className="block"
+                    />
                     ) : (
                       <span className="block">{content.methodologyPillar4Desc}</span>
                     )}
@@ -1067,10 +1067,10 @@ export const Design4: React.FC<{
                   <h3 className="text-lg font-light text-white mb-4">
                     {isEditing ? (
                       <EditableInput
-                        value={content.methodologyPillar5Title}
-                        onChange={(value) => handleContentChange('methodologyPillar5Title', value)}
-                        className="block"
-                      />
+                      value={content.methodologyPillar5Title}
+                      onChange={(value) => handleContentChange('methodologyPillar5Title', value)}
+                      className="block"
+                    />
                     ) : (
                       <span className="block">{content.methodologyPillar5Title}</span>
                     )}
@@ -1078,10 +1078,10 @@ export const Design4: React.FC<{
                   <p className="text-white/60 text-sm leading-relaxed">
                     {isEditing ? (
                       <EditableInput
-                        value={content.methodologyPillar5Desc}
-                        onChange={(value) => handleContentChange('methodologyPillar5Desc', value)}
-                        className="block"
-                      />
+                      value={content.methodologyPillar5Desc}
+                      onChange={(value) => handleContentChange('methodologyPillar5Desc', value)}
+                      className="block"
+                    />
                     ) : (
                       <span className="block">{content.methodologyPillar5Desc}</span>
                     )}
@@ -1132,9 +1132,9 @@ export const Design4: React.FC<{
           <h2 className="text-5xl font-extralight text-white mb-8 tracking-wide text-center">
             {isEditing ? (
               <EditableInput
-                value={content.whatYouGetTitle}
-                onChange={(value) => handleContentChange('whatYouGetTitle', value)}
-              />
+              value={content.whatYouGetTitle}
+              onChange={(value) => handleContentChange('whatYouGetTitle', value)}
+            />
             ) : (
               <span>{content.whatYouGetTitle}</span>
             )}
@@ -1142,10 +1142,10 @@ export const Design4: React.FC<{
           <p className="text-xl text-white/70 leading-relaxed mb-12 font-light">
             {isEditing ? (
               <EditableTextarea
-                value={content.whatYouGetDescription}
-                onChange={(value) => handleContentChange('whatYouGetDescription', value)}
-                className="w-full"
-              />
+              value={content.whatYouGetDescription}
+              onChange={(value) => handleContentChange('whatYouGetDescription', value)}
+              className="w-full"
+            />
             ) : (
               <span className="w-full whitespace-pre-line" style={{ whiteSpace: 'pre-line' }}>
                 {content.whatYouGetDescription}
@@ -1162,9 +1162,9 @@ export const Design4: React.FC<{
             <h2 className="text-6xl font-extralight text-white mb-10 tracking-wide">
               {isEditing ? (
                 <EditableInput
-                  value={content.journeyTitle}
-                  onChange={(value) => handleContentChange('journeyTitle', value)}
-                />
+                value={content.journeyTitle}
+                onChange={(value) => handleContentChange('journeyTitle', value)}
+              />
               ) : (
                 <span>{content.journeyTitle}</span>
               )}
@@ -1172,10 +1172,10 @@ export const Design4: React.FC<{
             <p className="text-xl text-white/70 leading-relaxed max-w-4xl mx-auto font-light mb-16">
               {isEditing ? (
                 <EditableTextarea
-                  value={content.journeyDescription}
-                  onChange={(value) => handleContentChange('journeyDescription', value)}
-                  className="w-full"
-                />
+                value={content.journeyDescription}
+                onChange={(value) => handleContentChange('journeyDescription', value)}
+                className="w-full"
+              />
               ) : (
                 <span className="w-full whitespace-pre-line" style={{ whiteSpace: 'pre-line' }}>
                   {content.journeyDescription}
@@ -1193,10 +1193,10 @@ export const Design4: React.FC<{
                 <h3 className="text-lg font-light text-white mb-4">
                   {isEditing ? (
                     <EditableInput
-                      value={content.journeyStep1Title}
-                      onChange={(value) => handleContentChange('journeyStep1Title', value)}
-                      className="block"
-                    />
+                    value={content.journeyStep1Title}
+                    onChange={(value) => handleContentChange('journeyStep1Title', value)}
+                    className="block"
+                  />
                   ) : (
                     <span className="block">{content.journeyStep1Title}</span>
                   )}
@@ -1204,10 +1204,10 @@ export const Design4: React.FC<{
                 <p className="text-white/60 text-sm leading-relaxed">
                   {isEditing ? (
                     <EditableInput
-                      value={content.journeyStep1Desc}
-                      onChange={(value) => handleContentChange('journeyStep1Desc', value)}
-                      className="block"
-                    />
+                    value={content.journeyStep1Desc}
+                    onChange={(value) => handleContentChange('journeyStep1Desc', value)}
+                    className="block"
+                  />
                   ) : (
                     <span className="block">{content.journeyStep1Desc}</span>
                   )}
@@ -1221,10 +1221,10 @@ export const Design4: React.FC<{
                 <h3 className="text-lg font-light text-white mb-4">
                   {isEditing ? (
                     <EditableInput
-                      value={content.journeyStep2Title}
-                      onChange={(value) => handleContentChange('journeyStep2Title', value)}
-                      className="block"
-                    />
+                    value={content.journeyStep2Title}
+                    onChange={(value) => handleContentChange('journeyStep2Title', value)}
+                    className="block"
+                  />
                   ) : (
                     <span className="block">{content.journeyStep2Title}</span>
                   )}
@@ -1232,10 +1232,10 @@ export const Design4: React.FC<{
                 <p className="text-white/60 text-sm leading-relaxed">
                   {isEditing ? (
                     <EditableInput
-                      value={content.journeyStep2Desc}
-                      onChange={(value) => handleContentChange('journeyStep2Desc', value)}
-                      className="block"
-                    />
+                    value={content.journeyStep2Desc}
+                    onChange={(value) => handleContentChange('journeyStep2Desc', value)}
+                    className="block"
+                  />
                   ) : (
                     <span className="block">{content.journeyStep2Desc}</span>
                   )}
@@ -1249,10 +1249,10 @@ export const Design4: React.FC<{
                 <h3 className="text-lg font-light text-white mb-4">
                   {isEditing ? (
                     <EditableInput
-                      value={content.journeyStep3Title}
-                      onChange={(value) => handleContentChange('journeyStep3Title', value)}
-                      className="block"
-                    />
+                    value={content.journeyStep3Title}
+                    onChange={(value) => handleContentChange('journeyStep3Title', value)}
+                    className="block"
+                  />
                   ) : (
                     <span className="block">{content.journeyStep3Title}</span>
                   )}
@@ -1260,10 +1260,10 @@ export const Design4: React.FC<{
                 <p className="text-white/60 text-sm leading-relaxed">
                   {isEditing ? (
                     <EditableInput
-                      value={content.journeyStep3Desc}
-                      onChange={(value) => handleContentChange('journeyStep3Desc', value)}
-                      className="block"
-                    />
+                    value={content.journeyStep3Desc}
+                    onChange={(value) => handleContentChange('journeyStep3Desc', value)}
+                    className="block"
+                  />
                   ) : (
                     <span className="block">{content.journeyStep3Desc}</span>
                   )}
@@ -1277,10 +1277,10 @@ export const Design4: React.FC<{
                 <h3 className="text-lg font-light text-white mb-4">
                   {isEditing ? (
                     <EditableInput
-                      value={content.journeyStep4Title}
-                      onChange={(value) => handleContentChange('journeyStep4Title', value)}
-                      className="block"
-                    />
+                    value={content.journeyStep4Title}
+                    onChange={(value) => handleContentChange('journeyStep4Title', value)}
+                    className="block"
+                  />
                   ) : (
                     <span className="block">{content.journeyStep4Title}</span>
                   )}
@@ -1288,10 +1288,10 @@ export const Design4: React.FC<{
                 <p className="text-white/60 text-sm leading-relaxed">
                   {isEditing ? (
                     <EditableInput
-                      value={content.journeyStep4Desc}
-                      onChange={(value) => handleContentChange('journeyStep4Desc', value)}
-                      className="block"
-                    />
+                    value={content.journeyStep4Desc}
+                    onChange={(value) => handleContentChange('journeyStep4Desc', value)}
+                    className="block"
+                  />
                   ) : (
                     <span className="block">{content.journeyStep4Desc}</span>
                   )}
@@ -1305,10 +1305,10 @@ export const Design4: React.FC<{
                 <h3 className="text-lg font-light text-white mb-4">
                   {isEditing ? (
                     <EditableInput
-                      value={content.journeyStep5Title}
-                      onChange={(value) => handleContentChange('journeyStep5Title', value)}
-                      className="block"
-                    />
+                    value={content.journeyStep5Title}
+                    onChange={(value) => handleContentChange('journeyStep5Title', value)}
+                    className="block"
+                  />
                   ) : (
                     <span className="block">{content.journeyStep5Title}</span>
                   )}
@@ -1316,10 +1316,10 @@ export const Design4: React.FC<{
                 <p className="text-white/60 text-sm leading-relaxed">
                   {isEditing ? (
                     <EditableInput
-                      value={content.journeyStep5Desc}
-                      onChange={(value) => handleContentChange('journeyStep5Desc', value)}
-                      className="block"
-                    />
+                    value={content.journeyStep5Desc}
+                    onChange={(value) => handleContentChange('journeyStep5Desc', value)}
+                    className="block"
+                  />
                   ) : (
                     <span className="block">{content.journeyStep5Desc}</span>
                   )}
@@ -1338,8 +1338,8 @@ export const Design4: React.FC<{
             {isEditing ? (
               <EditableInput
                 value={content.ctaTitle}
-                onChange={(value) => handleContentChange('ctaTitle', value)}
-              />
+              onChange={(value) => handleContentChange('ctaTitle', value)}
+            />
             ) : (
               <span>{content.ctaTitle}</span>
             )}
@@ -1347,10 +1347,10 @@ export const Design4: React.FC<{
           <p className="text-xl text-white/70 leading-relaxed mb-12 font-light">
             {isEditing ? (
               <EditableTextarea
-                value={content.ctaDescription}
-                onChange={(value) => handleContentChange('ctaDescription', value)}
-                className="w-full"
-              />
+              value={content.ctaDescription}
+              onChange={(value) => handleContentChange('ctaDescription', value)}
+              className="w-full"
+            />
             ) : (
               <span className="w-full whitespace-pre-line" style={{ whiteSpace: 'pre-line' }}>
                 {content.ctaDescription}
@@ -1362,11 +1362,11 @@ export const Design4: React.FC<{
               <Rocket className="w-5 h-5" />
               {isEditing ? (
                 <EditableInput
-                  value={content.ctaApplyButton}
-                  onChange={(value) => handleContentChange('ctaApplyButton', value)}
-                  className="block"
-                  textColor="text-black"
-                />
+                value={content.ctaApplyButton}
+                onChange={(value) => handleContentChange('ctaApplyButton', value)}
+                className="block"
+                textColor="text-black"
+              />
               ) : (
                 <span className="block text-black">{content.ctaApplyButton}</span>
               )}
@@ -1374,10 +1374,10 @@ export const Design4: React.FC<{
             <button className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-full hover:bg-white/20 transition-all duration-300 text-lg">
               {isEditing ? (
                 <EditableInput
-                  value={content.ctaLearnButton}
-                  onChange={(value) => handleContentChange('ctaLearnButton', value)}
-                  className="block"
-                />
+                value={content.ctaLearnButton}
+                onChange={(value) => handleContentChange('ctaLearnButton', value)}
+                className="block"
+              />
               ) : (
                 <span className="block">{content.ctaLearnButton}</span>
               )}
@@ -1391,10 +1391,10 @@ export const Design4: React.FC<{
           <p className="text-white text-sm">
             {isEditing ? (
               <EditableInput
-                value={content.footerCopyright}
-                onChange={(value) => handleContentChange('footerCopyright', value)}
-                className="block"
-              />
+              value={content.footerCopyright}
+              onChange={(value) => handleContentChange('footerCopyright', value)}
+              className="block"
+            />
             ) : (
               <span className="block">{content.footerCopyright}</span>
             )}
@@ -1414,10 +1414,10 @@ export const Design4: React.FC<{
             <button className="text-white hover:text-white/60 transition-colors text-sm" onClick={onNavigateToBlogs}>
               {isEditing ? (
                 <EditableInput
-                  value={content.footerBlogsButton}
-                  onChange={(value) => handleContentChange('footerBlogsButton', value)}
-                  className="block"
-                />
+                value={content.footerBlogsButton}
+                onChange={(value) => handleContentChange('footerBlogsButton', value)}
+                className="block"
+              />
               ) : (
                 <span className="block">{content.footerBlogsButton}</span>
               )}

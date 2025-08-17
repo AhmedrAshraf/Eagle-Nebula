@@ -114,4 +114,125 @@ The best time to build your passionate business is now.', NOW(), NOW()),
 
 -- Footer Section
 ('footer', 'copyright', '© 2025 EAGLE NEBULA!. All rights reserved.', NOW(), NOW()),
-('footer', 'blogsButton', 'Blogs & News', NOW(), NOW());
+('footer', 'blogsButton', 'Blogs & News', NOW(), NOW()),
+
+-- Resources Section
+('resources', 'heroTitle', 'Resources & Gifts', NOW(), NOW()),
+('resources', 'heroDescription', 'Exclusive tools, frameworks, and resources to accelerate your entrepreneurial journey. From AI-powered toolkits to comprehensive assessments—everything you need to design and build your passionate business.', NOW(), NOW()),
+('resources', 'resourcesTitle', 'All Resources & Materials', NOW(), NOW()),
+('resources', 'ctaTitle', 'Ready to Build Your Passionate Business?', NOW(), NOW()),
+('resources', 'ctaDescription', 'These resources are just the beginning. Join Eagle Nebula Startup Studio and get hands-on support as we co-found your venture together.', NOW(), NOW()),
+('resources', 'ctaApplyButton', 'Apply to Join the Studio', NOW(), NOW()),
+('resources', 'ctaLearnButton', 'Learn More About Us', NOW(), NOW()),
+('resources', 'footerCopyright', '© 2025 EAGLE NEBULA!. All rights reserved.', NOW(), NOW()),
+('resources', 'footerBlogsButton', 'Blogs & News', NOW(), NOW());
+
+-- Create resource_files table for storing file information
+CREATE TABLE IF NOT EXISTS resource_files (
+    id SERIAL PRIMARY KEY,
+    resource_id VARCHAR(255) NOT NULL UNIQUE,
+    file_url TEXT NOT NULL,
+    file_name VARCHAR(255) NOT NULL,
+    file_size VARCHAR(50) NOT NULL,
+    uploaded_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create index for faster lookups
+CREATE INDEX IF NOT EXISTS idx_resource_files_resource_id ON resource_files(resource_id);
+
+-- Create trigger to update updated_at timestamp
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.updated_at = NOW();
+    RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+CREATE TRIGGER update_resource_files_updated_at 
+    BEFORE UPDATE ON resource_files 
+    FOR EACH ROW 
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- Create resource_cards table for storing resource card information
+CREATE TABLE IF NOT EXISTS resource_cards (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT NOT NULL,
+    button_text VARCHAR(255) NOT NULL,
+    button_action VARCHAR(50) NOT NULL CHECK (button_action IN ('download', 'link', 'contact', 'no-action')),
+    button_link TEXT,
+    icon VARCHAR(100),
+    category VARCHAR(100),
+    "order" INTEGER NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Create index for ordering
+CREATE INDEX IF NOT EXISTS idx_resource_cards_order ON resource_cards("order");
+
+-- Create trigger to update updated_at timestamp for resource_cards
+CREATE TRIGGER update_resource_cards_updated_at
+    BEFORE UPDATE ON resource_cards
+    FOR EACH ROW
+    EXECUTE FUNCTION update_updated_at_column();
+
+-- Insert original resource cards
+INSERT INTO resource_cards (title, description, button_text, button_action, "order", created_at, updated_at) VALUES
+('Business Design Framework', 'Our complete framework for designing your business around your unique founder profile. Includes detailed worksheets, step-by-step guides, and AI prompts to help you discover your sweet spot.', 'Download Framework', 'download', 1, NOW(), NOW()),
+('AI Co-Builder Toolkit', 'Essential AI tools and prompts for market research, content creation, business validation, and operations. Save months of work with our curated collection of AI assistants.', 'Download Toolkit', 'download', 2, NOW(), NOW()),
+('Founder Fit Assessment', 'Discover your unique founder profile with our comprehensive assessment. Understand your strengths, work style, and ideal business model before you build.', 'Take Assessment', 'link', 3, NOW(), NOW()),
+('Startup Validation Checklist', 'Step-by-step checklist to validate your business idea before you invest significant time and money. Avoid common pitfalls and build with confidence.', 'Download Checklist', 'download', 4, NOW(), NOW()),
+('Saudi Market Insights Report', 'Exclusive insights into the Saudi startup ecosystem, emerging trends, funding landscape, and opportunities. Stay ahead of the curve.', 'Download Report', 'download', 5, NOW(), NOW()),
+('Investor Pitch Template', 'Professional pitch deck template specifically designed for passionate entrepreneurs. Includes storytelling frameworks and design guidelines.', 'Download Template', 'download', 6, NOW(), NOW()),
+('Financial Planning Model', 'Comprehensive Excel/Google Sheets financial model template for startups. Includes revenue projections, cash flow, and scenario planning.', 'Download Model', 'download', 7, NOW(), NOW()),
+('Exclusive Community Access', 'Join our private community of passionate Saudi entrepreneurs, seasoned coaches, and successful operators. Network, learn, and grow together.', 'Join Community', 'contact', 8, NOW(), NOW());
+
+-- Update button text for existing resource cards (if they already exist)
+UPDATE resource_cards SET button_text = 'Download Framework' WHERE title = 'Business Design Framework';
+UPDATE resource_cards SET button_text = 'Download Toolkit' WHERE title = 'AI Co-Builder Toolkit';
+UPDATE resource_cards SET button_text = 'Take Assessment' WHERE title = 'Founder Fit Assessment';
+UPDATE resource_cards SET button_text = 'Download Checklist' WHERE title = 'Startup Validation Checklist';
+UPDATE resource_cards SET button_text = 'Download Report' WHERE title = 'Saudi Market Insights Report';
+UPDATE resource_cards SET button_text = 'Download Template' WHERE title = 'Investor Pitch Template';
+UPDATE resource_cards SET button_text = 'Download Model' WHERE title = 'Financial Planning Model';
+UPDATE resource_cards SET button_text = 'Join Community' WHERE title = 'Exclusive Community Access';
+
+-- Insert original resource items content (for reference - these are the original hardcoded values)
+-- Note: These are the original descriptions and titles from the ResourcesPage component
+-- You can use these as a reference for what content was originally there
+
+-- Business Design Framework
+-- Original title: 'Business Design Framework'
+-- Original description: 'Our complete framework for designing your business around your unique founder profile. Includes detailed worksheets, step-by-step guides, and AI prompts to help you discover your sweet spot.'
+
+-- AI Co-Builder Toolkit  
+-- Original title: 'AI Co-Builder Toolkit'
+-- Original description: 'Essential AI tools and prompts for market research, content creation, business validation, and operations. Save months of work with our curated collection of AI assistants.'
+
+-- Founder Fit Assessment
+-- Original title: 'Founder Fit Assessment'
+-- Original description: 'Discover your unique founder profile with our comprehensive assessment. Understand your strengths, work style, and ideal business model before you build.'
+
+-- Startup Validation Checklist
+-- Original title: 'Startup Validation Checklist'
+-- Original description: 'Step-by-step checklist to validate your business idea before you invest significant time and money. Avoid common pitfalls and build with confidence.'
+
+-- Saudi Market Insights Report
+-- Original title: 'Saudi Market Insights Report'
+-- Original description: 'Exclusive insights into the Saudi startup ecosystem, emerging trends, funding landscape, and opportunities. Stay ahead of the curve.'
+
+-- Investor Pitch Template
+-- Original title: 'Investor Pitch Template'
+-- Original description: 'Professional pitch deck template specifically designed for passionate entrepreneurs. Includes storytelling frameworks and design guidelines.'
+
+-- Financial Planning Model
+-- Original title: 'Financial Planning Model'
+-- Original description: 'Comprehensive Excel/Google Sheets financial model template for startups. Includes revenue projections, cash flow, and scenario planning.'
+
+-- Exclusive Community Access
+-- Original title: 'Exclusive Community Access'
+-- Original description: 'Join our private community of passionate Saudi entrepreneurs, seasoned coaches, and successful operators. Network, learn, and grow together.'
