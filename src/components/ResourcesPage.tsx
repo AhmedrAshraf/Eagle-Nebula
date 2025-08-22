@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Rocket, Star, Zap, Edit3, Save, X, Menu, ChevronDown, Twitter, Linkedin, Youtube, Settings, Lock, RotateCcw, LogOut, Plus, Trash2, FileText, Upload, Download, ExternalLink, MessageCircle, ArrowLeft } from 'lucide-react';
 import { ContentService, ResourceCard } from '../services/contentService';
+import { useLanguage } from '../hooks/useLanguage';
 import { supabase } from '../lib/supabase';
 
 interface ResourceItem {
@@ -69,6 +70,7 @@ export const ResourcesPage: React.FC<{
   onBack: () => void;
   onNavigateToBlogs: () => void;
 }> = ({ onBack, onNavigateToBlogs }) => {
+  const { currentLanguage } = useLanguage();
   const parallaxRef = useRef<HTMLDivElement>(null);
   const hasMountedRef = useRef(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -115,7 +117,7 @@ export const ResourcesPage: React.FC<{
         
         // Fetch both content and resource cards in parallel
         const [contentMap, files] = await Promise.all([
-          ContentService.fetchAllContent(),
+          ContentService.fetchAllContent(currentLanguage),
           ContentService.getResourceFiles()
         ]);
         
@@ -123,7 +125,7 @@ export const ResourcesPage: React.FC<{
         await ContentService.initializeResourceCards();
         
         // Fetch resource cards after initialization
-        const cards = await ContentService.getResourceCards();
+        const cards = await ContentService.getResourceCards(currentLanguage);
         
         // Transform database content to component format
         const transformedContent: EditableContent = {
@@ -147,8 +149,8 @@ export const ResourcesPage: React.FC<{
         await ContentService.initializeDefaultContent();
         // Retry fetch
         const [contentMap, cards, files] = await Promise.all([
-          ContentService.fetchAllContent(),
-          ContentService.getResourceCards(),
+          ContentService.fetchAllContent(currentLanguage),
+          ContentService.getResourceCards(currentLanguage),
           ContentService.getResourceFiles()
         ]);
         // ... same transformation logic
@@ -158,7 +160,7 @@ export const ResourcesPage: React.FC<{
     };
 
     fetchData();
-  }, []);
+  }, [currentLanguage]);
 
   // Scroll to top when component mounts
   useEffect(() => {

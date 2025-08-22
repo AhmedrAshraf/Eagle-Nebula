@@ -1,6 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Rocket, Star, Zap, Edit3, Save, X, Menu, ChevronDown, Twitter, Linkedin, Youtube, Settings, Lock, RotateCcw, LogOut } from 'lucide-react';
 import { ContentService } from '../../services/contentService';
+import { useLanguage } from '../../hooks/useLanguage';
+import LanguageSwitcher from '../LanguageSwitcher';
+import '../../i18n';
 
 // Stable input components defined outside to prevent recreation on every render
 const EditableInput = React.memo<{
@@ -95,6 +98,7 @@ export const Design4: React.FC<{
   onNavigateToResources: () => void;
   onNavigateToBlogs: () => void;
 }> = ({ onNavigateToResources, onNavigateToBlogs }) => {
+  const { currentLanguage, content: languageContent, loading: languageLoading } = useLanguage();
   const parallaxRef = useRef<HTMLDivElement>(null);
   const hasMountedRef = useRef(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -166,83 +170,80 @@ export const Design4: React.FC<{
 
 
 
-  // Fetch content from database on component mount
+    // Helper function to process line breaks
+  const processLineBreaks = (text: string): string => {
+    if (!text) return '';
+    return text.replace(/\\n/g, '\n');
+  };
+
+  // Update content when language changes
   useEffect(() => {
-    const fetchContent = async () => {
+    
+    if (!languageLoading && languageContent) {
       try {
-        setIsLoading(true);
-        const contentMap = await ContentService.fetchAllContent();
-        
         // Transform database content to component format
         const transformedContent: EditableContent = {
-          heroTitle: contentMap.hero?.title || '',
-          heroSubtitle: contentMap.hero?.subtitle || '',
-          heroDescription: contentMap.hero?.description || '',
-          heroApplyButton: contentMap.hero?.applyButton || 'Apply to Join the Studio',
-          heroLearnButton: contentMap.hero?.learnButton || 'Learn More',
-          whatWeAreTitle: contentMap['who-we-are']?.title || '',
-          whatWeAreDescription: contentMap['who-we-are']?.description || '',
-          focusTitle: contentMap.focus?.title || '',
-          focusSubTitle: contentMap.focus?.subtitle || '',
-          focusDescription: contentMap.focus?.description || '',
-          focusFields: contentMap.focus?.fields ? JSON.parse(contentMap.focus.fields) : [
-      'Have a spark they can\'t ignore — a topic, craft, or mission that excites them',
-      'Are ready to commit to building a business around their unique skills, creativity, and vision',
-      'See entrepreneurship as a lifestyle and a calling, not just a quick way to make money',
-      'Are open to using AI and modern tools to move faster, smarter, and with less waste',
-      'Value collaboration and want a co-founder who\'s as invested in their success as they are'
-    ],
-          focusFounders: contentMap.focus?.founders || '',
-          methodologyTitle: contentMap.methodology?.title || '',
-          methodologySubTitle: contentMap.methodology?.subtitle || '',
-          methodologyDescription: contentMap.methodology?.description || '',
-          methodologyPillar1Title: contentMap.methodology?.pillar1Title || 'What You Love',
-          methodologyPillar1Desc: contentMap.methodology?.pillar1Desc || 'Your passion foundation that fuels your journey',
-          methodologyPillar2Title: contentMap.methodology?.pillar2Title || 'What You Have',
-          methodologyPillar2Desc: contentMap.methodology?.pillar2Desc || 'Skills, experience, and resources at your disposal',
-          methodologyPillar3Title: contentMap.methodology?.pillar3Title || 'Your Best Way to Work',
-          methodologyPillar3Desc: contentMap.methodology?.pillar3Desc || 'How you operate at peak performance',
-          methodologyPillar4Title: contentMap.methodology?.pillar4Title || 'What You Want to Achieve',
-          methodologyPillar4Desc: contentMap.methodology?.pillar4Desc || 'Your goals and the life you\'re building toward',
-          methodologyPillar5Title: contentMap.methodology?.pillar5Title || 'Your AI Co-Builder',
-          methodologyPillar5Desc: contentMap.methodology?.pillar5Desc || 'Your speed advantage that makes everything easier',
-          whatYouGetTitle: contentMap['what-you-get']?.title || '',
-          whatYouGetDescription: contentMap['what-you-get']?.description || '',
-          journeyTitle: contentMap.journey?.title || '',
-          journeyDescription: contentMap.journey?.description || '',
-          journeyStep1Title: contentMap.journey?.step1Title || 'Apply',
-          journeyStep1Desc: contentMap.journey?.step1Desc || 'Tell us who you are, your story, and what excites you. We don\'t need a perfect idea—we need a spark.',
-          journeyStep2Title: contentMap.journey?.step2Title || 'Discovery',
-          journeyStep2Desc: contentMap.journey?.step2Desc || 'We run the Design Your Business with AI process to map your founder profile. You\'re the center of the design.',
-          journeyStep3Title: contentMap.journey?.step3Title || 'Co‑Founding Sprint',
-          journeyStep3Desc: contentMap.journey?.step3Desc || 'We sit at the same table and build: brainstorm, validate, name, position, prototype—using AI for faster testing.',
-          journeyStep4Title: contentMap.journey?.step4Title || 'Ecosystem & Launch',
-          journeyStep4Desc: contentMap.journey?.step4Desc || 'Join our community of passionate Saudi founders. We launch together and share the risk—and the reward.',
-          journeyStep5Title: contentMap.journey?.step5Title || 'The Eagle Nebula Ecosystem',
-          journeyStep5Desc: contentMap.journey?.step5Desc || 'Join a supportive community of passionate Saudi founders, coaches, and operators. Share wins, ask real questions, get real answers.',
-          ctaTitle: contentMap.cta?.title || '',
-          ctaDescription: contentMap.cta?.description || '',
-          ctaApplyButton: contentMap.cta?.applyButton || 'Apply to Join the Studio',
-          ctaLearnButton: contentMap.cta?.learnButton || 'Learn More About Us',
-          footerCopyright: contentMap.footer?.copyright || '© 2025 EAGLE NEBULA!. All rights reserved.',
-          footerBlogsButton: contentMap.footer?.blogsButton || 'Blogs & News'
+          heroTitle: languageContent.hero?.title || '',
+          heroSubtitle: languageContent.hero?.subtitle || '',
+          heroDescription: processLineBreaks(languageContent.hero?.description || ''),
+          heroApplyButton: languageContent.hero?.applyButton || (currentLanguage === 'ar' ? 'تقدم للانضمام' : 'Apply to Join the Studio'),
+          heroLearnButton: languageContent.hero?.learnButton || (currentLanguage === 'ar' ? 'اعرف المزيد' : 'Learn More'),
+          whatWeAreTitle: languageContent['who-we-are']?.title || '',
+          whatWeAreDescription: processLineBreaks(languageContent['who-we-are']?.description || ''),
+          focusTitle: languageContent.focus?.title || '',
+          focusSubTitle: languageContent.focus?.subtitle || '',
+          focusDescription: processLineBreaks(languageContent.focus?.description || ''),
+          focusFields: languageContent.focus?.fields ? JSON.parse(languageContent.focus.fields) : [
+            'Have a spark they can\'t ignore — a topic, craft, or mission that excites them',
+            'Are ready to commit to building a business around their unique skills, creativity, and vision',
+            'See entrepreneurship as a lifestyle and a calling, not just a quick way to make money',
+            'Are open to using AI and modern tools to move faster, smarter, and with less waste',
+            'Value collaboration and want a co-founder who\'s as invested in their success as they are'
+          ],
+          focusFounders: processLineBreaks(languageContent.focus?.founders || ''),
+          methodologyTitle: languageContent.methodology?.title || '',
+          methodologySubTitle: languageContent.methodology?.subtitle || '',
+          methodologyDescription: processLineBreaks(languageContent.methodology?.description || ''),
+          methodologyPillar1Title: languageContent.methodology?.pillar1Title || 'What You Love',
+          methodologyPillar1Desc: languageContent.methodology?.pillar1Desc || 'Your passion foundation that fuels your journey',
+          methodologyPillar2Title: languageContent.methodology?.pillar2Title || 'What You Have',
+          methodologyPillar2Desc: languageContent.methodology?.pillar2Desc || 'Skills, experience, and resources at your disposal',
+          methodologyPillar3Title: languageContent.methodology?.pillar3Title || 'Your Best Way to Work',
+          methodologyPillar3Desc: languageContent.methodology?.pillar3Desc || 'How you operate at peak performance',
+          methodologyPillar4Title: languageContent.methodology?.pillar4Title || 'What You Want to Achieve',
+          methodologyPillar4Desc: languageContent.methodology?.pillar4Desc || 'Your goals and the life you\'re building toward',
+          methodologyPillar5Title: languageContent.methodology?.pillar5Title || 'Your AI Co-Builder',
+          methodologyPillar5Desc: languageContent.methodology?.pillar5Desc || 'Your speed advantage that makes everything easier',
+          whatYouGetTitle: languageContent['what-you-get']?.title || '',
+          whatYouGetDescription: processLineBreaks(languageContent['what-you-get']?.description || ''),
+          journeyTitle: languageContent.journey?.title || '',
+          journeyDescription: processLineBreaks(languageContent.journey?.description || ''),
+          journeyStep1Title: languageContent.journey?.step1Title || 'Apply',
+          journeyStep1Desc: processLineBreaks(languageContent.journey?.step1Desc || 'Tell us who you are, your story, and what excites you. We don\'t need a perfect idea—we need a spark.'),
+          journeyStep2Title: languageContent.journey?.step2Title || 'Discovery',
+          journeyStep2Desc: processLineBreaks(languageContent.journey?.step2Desc || 'We run the Design Your Business with AI process to map your founder profile. You\'re the center of the design.'),
+          journeyStep3Title: languageContent.journey?.step3Title || 'Co‑Founding Sprint',
+          journeyStep3Desc: processLineBreaks(languageContent.journey?.step3Desc || 'We sit at the same table and build: brainstorm, validate, name, position, prototype—using AI for faster testing.'),
+          journeyStep4Title: languageContent.journey?.step4Title || 'Ecosystem & Launch',
+          journeyStep4Desc: processLineBreaks(languageContent.journey?.step4Desc || 'Join our community of passionate Saudi founders. We launch together and share the risk—and the reward.'),
+          journeyStep5Title: languageContent.journey?.step5Title || 'The Eagle Nebula Ecosystem',
+          journeyStep5Desc: processLineBreaks(languageContent.journey?.step5Desc || 'Join a supportive community of passionate Saudi founders, coaches, and operators. Share wins, ask real questions, get real answers.'),
+          ctaTitle: languageContent.cta?.title || '',
+          ctaDescription: processLineBreaks(languageContent.cta?.description || ''),
+          ctaApplyButton: languageContent.cta?.applyButton || 'Apply to Join the Studio',
+          ctaLearnButton: languageContent.cta?.learnButton || 'Learn More About Us',
+          footerCopyright: languageContent.footer?.copyright || '© 2025 EAGLE NEBULA!. All rights reserved.',
+          footerBlogsButton: languageContent.footer?.blogsButton || 'Blogs & News'
         };
         
         setContent(transformedContent);
+        setIsLoading(false);
       } catch (error) {
-        console.error('Error fetching content:', error);
-        // Initialize default content if fetch fails
-        await ContentService.initializeDefaultContent();
-        // Retry fetch
-        const contentMap = await ContentService.fetchAllContent();
-        // ... same transformation logic
-      } finally {
+        console.error('Error transforming content:', error);
         setIsLoading(false);
       }
-    };
-
-    fetchContent();
-  }, []);
+    }
+  }, [currentLanguage, languageContent, languageLoading]);
 
   useEffect(() => {
     // Only scroll to top when component mounts (not when editing starts)
@@ -393,7 +394,7 @@ export const Design4: React.FC<{
         { section: 'footer', field: 'blogsButton', value: content.footerBlogsButton }
       ];
 
-      await ContentService.updateMultipleContent(updates);
+      await ContentService.updateMultipleContent(updates, currentLanguage);
       setIsEditing(false);
       setOriginalContent(null);
       
@@ -436,7 +437,12 @@ export const Design4: React.FC<{
     }
   };
 
-
+  useEffect(() => {
+    // Set initial document direction based on language
+    const savedLanguage = localStorage.getItem('i18nextLng') || 'en';
+    document.documentElement.dir = savedLanguage === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = savedLanguage;
+  }, []);
 
   // Show loading state while fetching content
   if (isLoading) {
@@ -504,55 +510,48 @@ export const Design4: React.FC<{
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
+            {/* Language Switcher - Positioned on left for Arabic, right for English */}
+            <div className={`hidden md:block ${currentLanguage === 'ar' ? 'order-first' : 'order-last'} mb-10`}>
+              <LanguageSwitcher />
+            </div>
+
             <div 
-              className="text-white font-light text-xl tracking-wider cursor-pointer hover:text-white/80 transition-colors"
+              className={`text-white font-light text-xl tracking-wider cursor-pointer hover:text-white/80 transition-colors ${currentLanguage === 'ar' ? 'order-last' : 'order-first'}`}
               onClick={handleLogoClick}
             >
               EAGLE NEBULA
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-8">
-              <button
-                onClick={() => scrollToSection('hero')}
-                className="text-white/70 hover:text-white transition-colors duration-300"
-              >
-                Home
+            <nav className="hidden md:flex items-center space-x-8 [&>*]:text-white/70 [&>*]:hover:text-white [&>*]:transition-colors [&>*]:duration-300 order-2">
+              <button onClick={() => scrollToSection('hero')}>
+                {currentLanguage === 'ar' ? 'الرئيسية' : 'Home'}
               </button>
-              <button
-                onClick={() => scrollToSection('who-we-are')}
-                className="text-white/70 hover:text-white transition-colors duration-300"
-              >
-                Who We Are
+              <button onClick={() => scrollToSection('who-we-are')}>
+                {currentLanguage === 'ar' ? 'من نحن' : 'Who We Are'}
               </button>
-              <button
-                onClick={() => scrollToSection('focus')}
-                className="text-white/70 hover:text-white transition-colors duration-300"
-              >
-                Our Focus
+              <button onClick={() => scrollToSection('focus')}>
+                {currentLanguage === 'ar' ? 'تركيزنا' : 'Our Focus'}
               </button>
-              <button
-                onClick={() => scrollToSection('methodology')}
-                className="text-white/70 hover:text-white transition-colors duration-300"
-              >
-                Methodology
+              <button onClick={() => scrollToSection('methodology')}>
+                {currentLanguage === 'ar' ? 'منهجيتنا' : 'Methodology'}
               </button>
-              <button
-                onClick={() => scrollToSection('journey')}
-                className="text-white/70 hover:text-white transition-colors duration-300"
-              >
-                Journey
+              <button onClick={() => scrollToSection('journey')}>
+                {currentLanguage === 'ar' ? 'رحلتك معنا' : 'Journey'}
               </button>
-              <button
-                onClick={onNavigateToResources}
-                className="text-white/70 hover:text-white transition-colors duration-300"
-              >
-                Resources & Gifts
+              <button onClick={onNavigateToResources}>
+                {currentLanguage === 'ar' ? 'الموارد والهدايا' : 'Resources & Gifts'}
               </button>
             </nav>
 
+
+
             {/* Admin & Mobile Menu */}
             <div className="flex items-center space-x-4">
+              {/* Mobile Language Switcher */}
+              <div className="md:hidden">
+                <LanguageSwitcher />
+              </div>
               {/* Secret Admin Button - Only shows after triple click on logo */}
               {showSecretButton && (
                 <button
@@ -619,14 +618,30 @@ export const Design4: React.FC<{
           {isMenuOpen && (
             <nav className="md:hidden mt-4 pb-4 border-t border-white/10 pt-4">
               <div className="flex flex-col space-y-3">
-                <button onClick={() => scrollToSection('hero')} className="text-white/70 hover:text-white transition-colors text-left">Home</button>
-                <button onClick={() => scrollToSection('who-we-are')} className="text-white/70 hover:text-white transition-colors text-left">Who We Are</button>
-                <button onClick={() => scrollToSection('focus')} className="text-white/70 hover:text-white transition-colors text-left">Our Focus</button>
-                <button onClick={() => scrollToSection('methodology')} className="text-white/70 hover:text-white transition-colors text-left">Methodology</button>
-                <button onClick={() => scrollToSection('what-you-get')} className="text-white/70 hover:text-white transition-colors text-left">What You Get</button>
-                <button onClick={() => scrollToSection('journey')} className="text-white/70 hover:text-white transition-colors text-left">Journey</button>
-                <button onClick={onNavigateToResources} className="text-white/70 hover:text-white transition-colors text-left">Resources & Gifts</button>
-                <button onClick={() => scrollToSection('cta')} className="text-white/70 hover:text-white transition-colors text-left">Apply</button>
+                <button onClick={() => scrollToSection('hero')} className="text-white/70 hover:text-white transition-colors text-left">
+                  {currentLanguage === 'ar' ? 'الرئيسية' : 'Home'}
+                </button>
+                <button onClick={() => scrollToSection('who-we-are')} className="text-white/70 hover:text-white transition-colors text-left">
+                  {currentLanguage === 'ar' ? 'من نحن' : 'Who We Are'}
+                </button>
+                <button onClick={() => scrollToSection('focus')} className="text-white/70 hover:text-white transition-colors text-left">
+                  {currentLanguage === 'ar' ? 'تركيزنا' : 'Our Focus'}
+                </button>
+                <button onClick={() => scrollToSection('methodology')} className="text-white/70 hover:text-white transition-colors text-left">
+                  {currentLanguage === 'ar' ? 'منهجيتنا' : 'Methodology'}
+                </button>
+                <button onClick={() => scrollToSection('what-you-get')} className="text-white/70 hover:text-white transition-colors text-left">
+                  {currentLanguage === 'ar' ? 'ما تحصل عليه' : 'What You Get'}
+                </button>
+                <button onClick={() => scrollToSection('journey')} className="text-white/70 hover:text-white transition-colors text-left">
+                  {currentLanguage === 'ar' ? 'رحلتك معنا' : 'Journey'}
+                </button>
+                <button onClick={onNavigateToResources} className="text-white/70 hover:text-white transition-colors text-left">
+                  {currentLanguage === 'ar' ? 'الموارد والهدايا' : 'Resources & Gifts'}
+                </button>
+                <button onClick={() => scrollToSection('cta')} className="text-white/70 hover:text-white transition-colors text-left">
+                  {currentLanguage === 'ar' ? 'تقدم' : 'Apply'}
+                </button>
               </div>
             </nav>
           )}

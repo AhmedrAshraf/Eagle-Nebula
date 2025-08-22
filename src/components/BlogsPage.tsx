@@ -1,6 +1,7 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { ArrowLeft, Edit3, Plus, Calendar, User, Tag, Save, X, Trash2, Twitter, Youtube, Linkedin, RotateCcw, LogOut, Lock, Settings } from 'lucide-react';
 import { ContentService, BlogPost } from '../services/contentService';
+import { useLanguage } from '../hooks/useLanguage';
 
 // Stable input components defined outside to prevent recreation on every render
 const EditableInput = React.memo<{
@@ -51,6 +52,7 @@ export const BlogsPage: React.FC<{
   onBack: () => void;
   onNavigateToResources: () => void;
 }> = ({ onBack, onNavigateToResources }) => {
+    const { currentLanguage } = useLanguage();
     const parallaxRef = useRef<HTMLDivElement>(null);
     const hasMountedRef = useRef(false);
     const [isEditing, setIsEditing] = useState(false);
@@ -97,14 +99,14 @@ export const BlogsPage: React.FC<{
                 
                 // Fetch both content and blog posts in parallel
                 const [contentMap] = await Promise.all([
-                    ContentService.fetchAllContent()
+                    ContentService.fetchAllContent(currentLanguage)
                 ]);
                 
                 // Initialize blog posts if they don't exist
                 await ContentService.initializeBlogPosts();
                 
                 // Fetch blog posts after initialization
-                const posts = await ContentService.getBlogPosts();
+                const posts = await ContentService.getBlogPosts(currentLanguage);
                 
                 // Transform database content to component format
                 const transformedContent: EditableContent = {
@@ -122,9 +124,9 @@ export const BlogsPage: React.FC<{
                 await ContentService.initializeBlogPosts();
                 // Retry fetch
                 const [contentMap] = await Promise.all([
-                    ContentService.fetchAllContent()
+                    ContentService.fetchAllContent(currentLanguage)
                 ]);
-                const posts = await ContentService.getBlogPosts();
+                const posts = await ContentService.getBlogPosts(currentLanguage);
                 // ... same transformation logic
             } finally {
                 setIsLoading(false);
@@ -132,7 +134,7 @@ export const BlogsPage: React.FC<{
         };
 
         fetchData();
-    }, []);
+    }, [currentLanguage]);
 
     // Scroll to top when component mounts
     useEffect(() => {
