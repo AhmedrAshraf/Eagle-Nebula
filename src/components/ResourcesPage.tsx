@@ -3,6 +3,7 @@ import { Rocket, Star, Zap, Edit3, Save, X, Menu, ChevronDown, Twitter, Linkedin
 import { ContentService, ResourceCard } from '../services/contentService';
 import { useLanguage } from '../hooks/useLanguage';
 import { supabase } from '../lib/supabase';
+import LanguageSwitcher from './LanguageSwitcher';
 
 interface ResourceItem {
   id: string;
@@ -140,6 +141,8 @@ export const ResourcesPage: React.FC<{
           footerBlogsButton: contentMap.resources?.footerBlogsButton || ''
         };
         
+        console.log('Fetched resource cards:', cards);
+        console.log('Current language:', currentLanguage);
         setContent(transformedContent);
         setResourceCards(cards);
         setResourceFiles(files);
@@ -506,7 +509,7 @@ export const ResourcesPage: React.FC<{
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-white text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-lg">Loading content...</p>
+          <p className="text-lg">{currentLanguage === 'ar' ? 'جاري تحميل المحتوى...' : 'Loading content...'}</p>
         </div>
       </div>
     );
@@ -530,21 +533,30 @@ export const ResourcesPage: React.FC<{
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
+            {/* Language Switcher - Positioned on left for Arabic, right for English */}
+            <div className={`hidden md:block ${currentLanguage === 'ar' ? 'order-first' : 'order-last'}`}>
+              <LanguageSwitcher />
+            </div>
+
             <div className="flex items-center gap-4">
               <button
                 onClick={onBack}
                 className="text-white/70 hover:text-white transition-colors duration-300 flex items-center gap-2"
               >
                 <ArrowLeft className="w-5 h-5" />
-                Back to Home
+                {currentLanguage === 'ar' ? 'العودة للرئيسية' : 'Back to Home'}
               </button>
             </div>
 
-            <div className="text-white font-light text-xl tracking-wider">
+            <div className={`text-white font-light text-xl tracking-wider ${currentLanguage === 'ar' ? 'order-last' : 'order-first'}`}>
               EAGLE NEBULA
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-4 order-2">
+              {/* Mobile Language Switcher */}
+              <div className="md:hidden">
+                <LanguageSwitcher />
+              </div>
                 {isEditing ? (
                   <>
                   <button
@@ -552,7 +564,7 @@ export const ResourcesPage: React.FC<{
                     className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/20 text-red-400 border border-red-400/30 hover:bg-red-500/30 transition-all duration-300"
                   >
                     <RotateCcw className="w-4 h-4" />
-                    Discard
+                    {currentLanguage === 'ar' ? 'إلغاء' : 'Discard'}
                   </button>
                   <button
                     onClick={handleSaveResourceChanges}
@@ -560,7 +572,7 @@ export const ResourcesPage: React.FC<{
                     className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 text-green-400 border border-green-400/30 hover:bg-green-500/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Save className="w-4 h-4" />
-                    {isSaving ? 'Saving...' : 'Save'}
+                    {isSaving ? (currentLanguage === 'ar' ? 'جاري الحفظ...' : 'Saving...') : (currentLanguage === 'ar' ? 'حفظ' : 'Save')}
                   </button>
                   </>
                 ) : (
@@ -569,7 +581,7 @@ export const ResourcesPage: React.FC<{
                   className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-all duration-300"
                 >
                     <Edit3 className="w-4 h-4" />
-                    Edit Content
+                    {currentLanguage === 'ar' ? 'تعديل المحتوى' : 'Edit Content'}
                 </button>
                 )}
             </div>

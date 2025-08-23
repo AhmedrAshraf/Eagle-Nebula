@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from 'react';
 import { ArrowLeft, Edit3, Plus, Calendar, User, Tag, Save, X, Trash2, Twitter, Youtube, Linkedin, RotateCcw, LogOut, Lock, Settings } from 'lucide-react';
 import { ContentService, BlogPost } from '../services/contentService';
 import { useLanguage } from '../hooks/useLanguage';
+import LanguageSwitcher from './LanguageSwitcher';
 
 // Stable input components defined outside to prevent recreation on every render
 const EditableInput = React.memo<{
@@ -115,6 +116,8 @@ export const BlogsPage: React.FC<{
                     blogsTitle: contentMap.blogs?.blogsTitle || 'Latest Articles & Updates'
                 };
                 
+                console.log('Fetched blog posts:', posts);
+                console.log('Current language:', currentLanguage);
                 setContent(transformedContent);
                 setBlogPosts(posts);
             } catch (error) {
@@ -311,10 +314,10 @@ export const BlogsPage: React.FC<{
     if (isLoading) {
         return (
             <div className="min-h-screen bg-black flex items-center justify-center">
-                <div className="text-white text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-                    <p className="text-lg">Loading content...</p>
-                </div>
+                                    <div className="text-white text-center">
+                        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+                        <p className="text-lg">{currentLanguage === 'ar' ? 'جاري تحميل المحتوى...' : 'Loading content...'}</p>
+                    </div>
             </div>
         );
     }
@@ -334,15 +337,15 @@ export const BlogsPage: React.FC<{
                     <div className="relative bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 max-w-md w-full mx-4">
                         <div className="text-center">
                             <Lock className="w-12 h-12 text-white mx-auto mb-4" />
-                            <h3 className="text-2xl font-light text-white mb-6">Admin Access</h3>
-                            <p className="text-white/70 mb-6">Enter the secret admin code to access editing features</p>
+                            <h3 className="text-2xl font-light text-white mb-6">{currentLanguage === 'ar' ? 'الوصول للمدير' : 'Admin Access'}</h3>
+                            <p className="text-white/70 mb-6">{currentLanguage === 'ar' ? 'أدخل كود المدير السري للوصول إلى ميزات التعديل' : 'Enter the secret admin code to access editing features'}</p>
                             
                             <div className="space-y-4">
                                 <input
                                     type="password"
                                     value={adminCode}
                                     onChange={(e) => setAdminCode(e.target.value)}
-                                    placeholder="Enter admin code..."
+                                    placeholder={currentLanguage === 'ar' ? 'أدخل كود المدير...' : 'Enter admin code...'}
                                     className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-white/50 focus:outline-none focus:border-white/40"
                                     onKeyPress={(e) => e.key === 'Enter' && handleAdminCodeSubmit()}
                                 />
@@ -352,13 +355,13 @@ export const BlogsPage: React.FC<{
                                         onClick={handleAdminCodeSubmit}
                                         className="flex-1 bg-white text-black px-4 py-3 rounded-lg hover:bg-white/90 transition-colors font-medium"
                                     >
-                                        Access Admin
+                                        {currentLanguage === 'ar' ? 'الوصول للمدير' : 'Access Admin'}
                                     </button>
                                     <button
                                         onClick={() => setShowAdminPanel(false)}
                                         className="flex-1 bg-white/10 text-white px-4 py-3 rounded-lg hover:bg-white/20 transition-colors border border-white/20"
                                     >
-                                        Cancel
+                                        {currentLanguage === 'ar' ? 'إلغاء' : 'Cancel'}
                                     </button>
                                 </div>
                             </div>
@@ -371,24 +374,33 @@ export const BlogsPage: React.FC<{
             <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
                 <div className="max-w-7xl mx-auto px-6 py-4">
                     <div className="flex items-center justify-between">
+                        {/* Language Switcher - Positioned on left for Arabic, right for English */}
+                        <div className={`hidden md:block ${currentLanguage === 'ar' ? 'order-first' : 'order-last'}`}>
+                            <LanguageSwitcher />
+                        </div>
+
                         <div className="flex items-center gap-4">
                             <button
                                 onClick={onBack}
                                 className="text-white/70 hover:text-white transition-colors duration-300 flex items-center gap-2"
                             >
                                 <ArrowLeft className="w-5 h-5" />
-                                Back to Home
+                                {currentLanguage === 'ar' ? 'العودة للرئيسية' : 'Back to Home'}
                             </button>
                         </div>
 
                         <div 
-                            className="text-white font-light text-xl tracking-wider cursor-pointer hover:text-white/80 transition-colors"
+                            className={`text-white font-light text-xl tracking-wider cursor-pointer hover:text-white/80 transition-colors ${currentLanguage === 'ar' ? 'order-last' : 'order-first'}`}
                             onClick={handleLogoClick}
                         >
                             EAGLE NEBULA
                         </div>
 
-                        <div className="flex items-center space-x-4">
+                        <div className="flex items-center space-x-4 order-2">
+                            {/* Mobile Language Switcher */}
+                            <div className="md:hidden">
+                                <LanguageSwitcher />
+                            </div>
                             {/* Secret Admin Button - Only shows after triple click on logo */}
                             {showSecretButton && (
                                 <button
@@ -396,7 +408,7 @@ export const BlogsPage: React.FC<{
                                     className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/20 text-red-400 border border-red-400/30 transition-all duration-300 animate-pulse"
                                 >
                                     <Lock className="w-4 h-4" />
-                                    <span className="hidden sm:inline">Admin</span>
+                                    <span className="hidden sm:inline">{currentLanguage === 'ar' ? 'المدير' : 'Admin'}</span>
                                 </button>
                             )}
 
@@ -410,7 +422,7 @@ export const BlogsPage: React.FC<{
                                                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/20 text-red-400 border border-red-400/30 hover:bg-red-500/30 transition-all duration-300"
                                             >
                                                 <RotateCcw className="w-4 h-4" />
-                                                <span className="hidden sm:inline">Discard</span>
+                                                <span className="hidden sm:inline">{currentLanguage === 'ar' ? 'إلغاء' : 'Discard'}</span>
                                             </button>
                                             <button
                                                 onClick={handleSaveChanges}
@@ -418,7 +430,7 @@ export const BlogsPage: React.FC<{
                                                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 text-green-400 border border-green-400/30 hover:bg-green-500/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                                             >
                                                 <Save className="w-4 h-4" />
-                                                <span className="hidden sm:inline">{isSaving ? 'Saving...' : 'Save'}</span>
+                                                <span className="hidden sm:inline">{isSaving ? (currentLanguage === 'ar' ? 'جاري الحفظ...' : 'Saving...') : (currentLanguage === 'ar' ? 'حفظ' : 'Save')}</span>
                                             </button>
                                         </>
                                     ) : (

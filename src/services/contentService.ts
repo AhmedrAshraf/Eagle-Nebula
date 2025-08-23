@@ -373,12 +373,9 @@ export class ContentService {
       // Get multilingual resource cards for the specific language only
       const { data: multilingualData, error: multilingualError } = await supabase
         .from('multilingual_resource_cards')
-        .select(`
-          *,
-          resource_cards!inner(*)
-        `)
+        .select('*')
         .eq('language', language)
-        .order('resource_cards.order', { ascending: true });
+        .order('original_id', { ascending: true });
 
       if (multilingualError) {
         console.error('Error fetching multilingual resource cards:', multilingualError);
@@ -386,20 +383,23 @@ export class ContentService {
       }
 
       if (multilingualData && multilingualData.length > 0) {
-        return multilingualData.map((item: any) => ({
-          id: item.resource_cards.id,
+        console.log('Raw multilingual resource cards data:', multilingualData);
+        const mappedData = multilingualData.map((item: any) => ({
+          id: item.original_id,
           title: item.title,
           description: item.description,
           buttonText: item.button_text,
-          buttonAction: item.resource_cards.button_action,
-          buttonLink: item.resource_cards.button_link,
-          icon: item.resource_cards.icon,
-          category: item.resource_cards.category,
-          order: item.resource_cards.order,
+          buttonAction: 'download' as const, // Default action
+          buttonLink: undefined,
+          icon: '⭐', // Default icon
+          category: 'resources',
+          order: 1, // Default order
           language: item.language,
-          created_at: item.resource_cards.created_at,
-          updated_at: item.resource_cards.updated_at
+          created_at: item.created_at,
+          updated_at: item.updated_at
         }));
+        console.log('Mapped resource cards:', mappedData);
+        return mappedData;
       }
 
       // Return empty array if no content for this language
@@ -508,12 +508,9 @@ export class ContentService {
       // Get multilingual blog posts for the specific language only
       const { data: multilingualData, error: multilingualError } = await supabase
         .from('multilingual_blog_posts')
-        .select(`
-          *,
-          blog_posts!inner(*)
-        `)
+        .select('*')
         .eq('language', language)
-        .order('blog_posts.created_at', { ascending: false });
+        .order('original_id', { ascending: false });
 
       if (multilingualError) {
         console.error('Error fetching multilingual blog posts:', multilingualError);
@@ -521,19 +518,22 @@ export class ContentService {
       }
 
       if (multilingualData && multilingualData.length > 0) {
-        return multilingualData.map((item: any) => ({
-          id: item.blog_posts.id,
+        console.log('Raw multilingual blog posts data:', multilingualData);
+        const mappedData = multilingualData.map((item: any) => ({
+          id: item.original_id,
           title: item.title,
           excerpt: item.excerpt,
           content: item.content,
-          author: item.blog_posts.author,
-          date: item.blog_posts.date,
-          category: item.blog_posts.category,
-          featured: item.blog_posts.featured,
+          author: 'Eagle Nebula Team', // Default author
+          date: new Date().toISOString().split('T')[0], // Default date
+          category: 'Business Strategy', // Default category
+          featured: false, // Default featured status
           language: item.language,
-          created_at: item.blog_posts.created_at,
-          updated_at: item.blog_posts.updated_at
+          created_at: item.created_at,
+          updated_at: item.updated_at
         }));
+        console.log('Mapped blog posts:', mappedData);
+        return mappedData;
       }
 
       // Return empty array if no content for this language
