@@ -35,7 +35,9 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     const loadContent = async () => {
       setLoading(true);
       try {
+        console.log('LanguageProvider: Loading content for language:', currentLanguage);
         const fetchedContent = await ContentService.fetchAllContent(currentLanguage);
+        console.log('LanguageProvider: Fetched content:', fetchedContent);
         setContent(fetchedContent);
       } catch (error) {
         console.error('Error loading content:', error);

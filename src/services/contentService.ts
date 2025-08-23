@@ -61,6 +61,8 @@ export class ContentService {
         throw multilingualError
       }
 
+      console.log('fetchAllContent: Raw multilingual data:', multilingualData);
+      
       // Transform data into the format expected by the component
       const contentMap: Record<string, any> = {}
       
@@ -71,6 +73,7 @@ export class ContentService {
         contentMap[item.section][item.field] = item.value
       })
 
+      console.log('fetchAllContent: Transformed content map:', contentMap);
       return contentMap
     } catch (error) {
       console.error('Error in fetchAllContent:', error)

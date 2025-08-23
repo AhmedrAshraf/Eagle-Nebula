@@ -486,7 +486,7 @@ export const Design4: React.FC<{
                   onKeyPress={(e) => e.key === 'Enter' && handleAdminCodeSubmit()}
                 />
                 
-                <div className="flex space-x-3">
+                <div className="flex space-x-4">
                   <button
                     onClick={handleAdminCodeSubmit}
                     className="flex-1 bg-white text-black px-4 py-3 rounded-lg hover:bg-white/90 transition-colors font-medium"
