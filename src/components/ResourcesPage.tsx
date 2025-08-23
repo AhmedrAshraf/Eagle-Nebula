@@ -130,15 +130,15 @@ export const ResourcesPage: React.FC<{
         
         // Transform database content to component format
         const transformedContent: EditableContent = {
-          heroTitle: contentMap.resources?.heroTitle || '',
-          heroDescription: contentMap.resources?.heroDescription || '',
-          resourcesTitle: contentMap.resources?.resourcesTitle || '',
-          ctaTitle: contentMap.resources?.ctaTitle || '',
-          ctaDescription: contentMap.resources?.ctaDescription || '',
-          ctaApplyButton: contentMap.resources?.ctaApplyButton || '',
-          ctaLearnButton: contentMap.resources?.ctaLearnButton || '',
-          footerCopyright: contentMap.resources?.footerCopyright || '',
-          footerBlogsButton: contentMap.resources?.footerBlogsButton || ''
+          heroTitle: contentMap.resources?.heroTitle || (currentLanguage === 'ar' ? 'الموارد والهدايا' : 'Resources & Gifts'),
+          heroDescription: contentMap.resources?.heroDescription || (currentLanguage === 'ar' ? 'أدوات حصرية، أطر عمل، وموارد لتسريع رحلتك الريادية. من مجموعات أدوات مدعومة بالذكاء الاصطناعي إلى تقييمات شاملة—كل ما تحتاجه لتصميم وبناء عملك التجاري المتحمس.' : 'Exclusive tools, frameworks, and resources to accelerate your entrepreneurial journey. From AI-powered toolkits to comprehensive assessments—everything you need to design and build your passionate business.'),
+          resourcesTitle: contentMap.resources?.resourcesTitle || (currentLanguage === 'ar' ? 'جميع الموارد والمواد' : 'All Resources & Materials'),
+          ctaTitle: contentMap.resources?.ctaTitle || (currentLanguage === 'ar' ? 'مستعد لبناء عملك التجاري المتحمس؟' : 'Ready to Build Your Passionate Business?'),
+          ctaDescription: contentMap.resources?.ctaDescription || (currentLanguage === 'ar' ? 'هذه الموارد هي مجرد البداية. انضم إلى استوديو إيجل نيبولا للشركات الناشئة واحصل على دعم عملي بينما نشاركك في تأسيس مشروعك.' : 'These resources are just the beginning. Join the Eagle Nebula Startup Studio and get hands-on support as we co-found your venture.'),
+          ctaApplyButton: contentMap.resources?.ctaApplyButton || (currentLanguage === 'ar' ? 'تقدم للانضمام إلى الاستوديو' : 'Apply to Join the Studio'),
+          ctaLearnButton: contentMap.resources?.ctaLearnButton || (currentLanguage === 'ar' ? 'اعرف المزيد عنا' : 'Learn More About Us'),
+          footerCopyright: contentMap.resources?.footerCopyright || (currentLanguage === 'ar' ? '© 2025 إيجل نيبولا! جميع الحقوق محفوظة.' : '© 2025 EAGLE NEBULA!. All rights reserved.'),
+          footerBlogsButton: contentMap.resources?.footerBlogsButton || (currentLanguage === 'ar' ? 'المدونة والأخبار' : 'Blogs & News')
         };
         
         console.log('Fetched resource cards:', cards);
@@ -290,7 +290,7 @@ export const ResourcesPage: React.FC<{
         { section: 'resources', field: 'footerBlogsButton', value: content.footerBlogsButton }
       ];
 
-      await ContentService.updateMultipleContent(updates);
+      await ContentService.updateMultipleContent(updates, currentLanguage);
       setIsEditing(false);
       setOriginalContent(null);
       
@@ -475,19 +475,14 @@ export const ResourcesPage: React.FC<{
         { section: 'resources', field: 'footerBlogsButton', value: content.footerBlogsButton }
       ];
 
-      await ContentService.updateMultipleContent(updates);
+      await ContentService.updateMultipleContent(updates, currentLanguage);
 
-      // Save resource card changes
+      // Save resource card changes for the current language
       for (const card of resourceCards) {
-        await ContentService.updateResourceCard(card.id, {
+        await ContentService.updateMultilingualResourceCard(card.id, currentLanguage, {
           title: card.title,
           description: card.description,
-          buttonText: card.buttonText,
-          buttonAction: card.buttonAction,
-          buttonLink: card.buttonLink,
-          icon: card.icon,
-          category: card.category,
-          order: card.order
+          button_text: card.buttonText
         });
       }
 
@@ -533,12 +528,8 @@ export const ResourcesPage: React.FC<{
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            {/* Language Switcher - Positioned on left for Arabic, right for English */}
-            <div className={`hidden md:block ${currentLanguage === 'ar' ? 'order-first' : 'order-last'}`}>
-              <LanguageSwitcher />
-            </div>
-
-            <div className="flex items-center gap-4">
+            {/* Left: Back to Home Button */}
+            <div className="flex items-center">
               <button
                 onClick={onBack}
                 className="text-white/70 hover:text-white transition-colors duration-300 flex items-center gap-2"
@@ -548,42 +539,55 @@ export const ResourcesPage: React.FC<{
               </button>
             </div>
 
-            <div className={`text-white font-light text-xl tracking-wider ${currentLanguage === 'ar' ? 'order-last' : 'order-first'}`}>
+            {/* Center: EAGLE NEBULA Logo */}
+            <div className="text-white font-light text-xl tracking-wider">
               EAGLE NEBULA
             </div>
 
-            <div className="flex items-center space-x-4 order-2">
+            {/* Right: Language Switcher + Admin Controls */}
+            <div className="flex items-center space-x-4">
+              {/* Desktop Language Switcher */}
+              <div className="hidden md:block">
+                <LanguageSwitcher />
+              </div>
+              
               {/* Mobile Language Switcher */}
               <div className="md:hidden">
                 <LanguageSwitcher />
               </div>
-                {isEditing ? (
-                  <>
+              
+              {/* Admin Controls - Only show if user is admin */}
+              {isAdmin && (
+                <>
+                  {isEditing ? (
+                    <>
+                    <button
+                      onClick={handleDiscardChanges}
+                      className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/20 text-red-400 border border-red-400/30 hover:bg-red-500/30 transition-all duration-300"
+                    >
+                      <RotateCcw className="w-4 h-4" />
+                      {currentLanguage === 'ar' ? 'إلغاء' : 'Discard'}
+                    </button>
+                    <button
+                      onClick={handleSaveResourceChanges}
+                      disabled={isSaving}
+                      className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 text-green-400 border border-green-400/30 hover:bg-green-500/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Save className="w-4 h-4" />
+                      {isSaving ? (currentLanguage === 'ar' ? 'جاري الحفظ...' : 'Saving...') : (currentLanguage === 'ar' ? 'حفظ' : 'Save')}
+                    </button>
+                    </>
+                  ) : (
                   <button
-                    onClick={handleDiscardChanges}
-                    className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/20 text-red-400 border border-red-400/30 hover:bg-red-500/30 transition-all duration-300"
+                    onClick={handleStartEditing}
+                    className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-all duration-300"
                   >
-                    <RotateCcw className="w-4 h-4" />
-                    {currentLanguage === 'ar' ? 'إلغاء' : 'Discard'}
+                      <Edit3 className="w-4 h-4" />
+                      {currentLanguage === 'ar' ? 'تعديل المحتوى' : 'Edit Content'}
                   </button>
-                  <button
-                    onClick={handleSaveResourceChanges}
-                    disabled={isSaving}
-                    className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 text-green-400 border border-green-400/30 hover:bg-green-500/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <Save className="w-4 h-4" />
-                    {isSaving ? (currentLanguage === 'ar' ? 'جاري الحفظ...' : 'Saving...') : (currentLanguage === 'ar' ? 'حفظ' : 'Save')}
-                  </button>
-                  </>
-                ) : (
-                <button
-                  onClick={handleStartEditing}
-                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-all duration-300"
-                >
-                    <Edit3 className="w-4 h-4" />
-                    {currentLanguage === 'ar' ? 'تعديل المحتوى' : 'Edit Content'}
-                </button>
-                )}
+                  )}
+                </>
+              )}
             </div>
           </div>
         </div>

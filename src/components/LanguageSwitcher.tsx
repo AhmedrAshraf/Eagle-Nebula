@@ -22,7 +22,7 @@ const LanguageSwitcher: React.FC = () => {
     }
   };
 
-  const currentLang = currentLanguage === 'en' ? 'EN' : 'عربي';
+  const targetLang = currentLanguage === 'en' ? 'AR' : 'ENG';
 
   // Only show switcher if there are multiple languages available
   if (availableLanguages.length < 2) {
@@ -33,10 +33,10 @@ const LanguageSwitcher: React.FC = () => {
     <button
       onClick={toggleLanguage}
       className="fixed top-4 right-4 z-50 flex items-center gap-2 px-3 py-2 bg-white/10 backdrop-blur-md rounded-lg border border-white/20 text-white hover:bg-white/20 transition-all duration-200 shadow-lg"
-      title={currentLanguage === 'en' ? 'Switch to Arabic' : 'التبديل إلى الإنجليزية'}
+      title={currentLanguage === 'en' ? 'Switch to Arabic' : 'Switch to English'}
     >
       <Globe size={16} />
-      <span className="font-medium">{currentLang}</span>
+      <span className="font-medium">{targetLang}</span>
     </button>
   );
 };

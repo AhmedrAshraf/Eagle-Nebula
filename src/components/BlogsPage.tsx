@@ -111,9 +111,9 @@ export const BlogsPage: React.FC<{
                 
                 // Transform database content to component format
                 const transformedContent: EditableContent = {
-                    heroTitle: contentMap.blogs?.heroTitle || 'Blogs & News',
-                    heroDescription: contentMap.blogs?.heroDescription || 'Stay updated with the latest insights, trends, and stories from the world of entrepreneurship and AI-powered business building.',
-                    blogsTitle: contentMap.blogs?.blogsTitle || 'Latest Articles & Updates'
+                    heroTitle: contentMap.blogs?.heroTitle || (currentLanguage === 'ar' ? 'المدونات والأخبار' : 'Blogs & News'),
+                                          heroDescription: contentMap.blogs?.heroDescription || (currentLanguage === 'ar' ? 'ابق على اطلاع بأحدث الرؤى والاتجاهات والقصص من عالم ريادة الأعمال وبناء الأعمال التجارية بالذكاء الاصطناعي.' : 'Stay updated with the latest insights, trends, and stories from the world of entrepreneurship and AI-powered business building.'),
+                                          blogsTitle: contentMap.blogs?.blogsTitle || (currentLanguage === 'ar' ? 'أحدث المقالات والتحديثات' : 'Latest Articles & Updates')
                 };
                 
                 console.log('Fetched blog posts:', posts);
@@ -374,12 +374,8 @@ export const BlogsPage: React.FC<{
             <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
                 <div className="max-w-7xl mx-auto px-6 py-4">
                     <div className="flex items-center justify-between">
-                        {/* Language Switcher - Positioned on left for Arabic, right for English */}
-                        <div className={`hidden md:block ${currentLanguage === 'ar' ? 'order-first' : 'order-last'}`}>
-                            <LanguageSwitcher />
-                        </div>
-
-                        <div className="flex items-center gap-4">
+                        {/* Left: Back to Home Button */}
+                        <div className="flex items-center">
                             <button
                                 onClick={onBack}
                                 className="text-white/70 hover:text-white transition-colors duration-300 flex items-center gap-2"
@@ -389,14 +385,21 @@ export const BlogsPage: React.FC<{
                             </button>
                         </div>
 
+                        {/* Center: EAGLE NEBULA Logo */}
                         <div 
-                            className={`text-white font-light text-xl tracking-wider cursor-pointer hover:text-white/80 transition-colors ${currentLanguage === 'ar' ? 'order-last' : 'order-first'}`}
+                            className="text-white font-light text-xl tracking-wider cursor-pointer hover:text-white/80 transition-colors"
                             onClick={handleLogoClick}
                         >
                             EAGLE NEBULA
                         </div>
 
-                        <div className="flex items-center space-x-4 order-2">
+                        {/* Right: Language Switcher + Admin Controls */}
+                        <div className="flex items-center space-x-4">
+                            {/* Desktop Language Switcher */}
+                            <div className="hidden md:block">
+                                <LanguageSwitcher />
+                            </div>
+                            
                             {/* Mobile Language Switcher */}
                             <div className="md:hidden">
                                 <LanguageSwitcher />
@@ -439,7 +442,7 @@ export const BlogsPage: React.FC<{
                                             className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-all duration-300"
                                         >
                                             <Edit3 className="w-4 h-4" />
-                                            <span className="hidden sm:inline">Edit</span>
+                                            <span className="hidden sm:inline">{currentLanguage === 'ar' ? 'تعديل' : 'Edit'}</span>
                                         </button>
                                     )}
                                     <button
@@ -448,7 +451,7 @@ export const BlogsPage: React.FC<{
                                         title="Logout from admin"
                                     >
                                         <LogOut className="w-4 h-4" />
-                                        <span className="hidden sm:inline">Logout</span>
+                                        <span className="hidden sm:inline">{currentLanguage === 'ar' ? 'تسجيل الخروج' : 'Logout'}</span>
                                     </button>
                                 </div>
                             )}
@@ -465,7 +468,7 @@ export const BlogsPage: React.FC<{
                                     {isCreating ? (
                                         <>
                                             <X className="w-4 h-4" />
-                                            <span className="hidden sm:inline">Cancel</span>
+                                            <span className="hidden sm:inline">{currentLanguage === 'ar' ? 'إلغاء' : 'Cancel'}</span>
                                         </>
                                     ) : (
                                         <>
@@ -613,7 +616,7 @@ export const BlogsPage: React.FC<{
                     <div className="max-w-7xl mx-auto">
                         <div className="text-center mb-16">
                             <h2 className="text-4xl font-extralight text-white mb-6 tracking-wide">
-                                Featured Articles
+                                {currentLanguage === 'ar' ? 'المقالات المميزة' : 'Featured Articles'}
                             </h2>
                         </div>
 
@@ -725,7 +728,7 @@ export const BlogsPage: React.FC<{
                                     )}
 
                                     <button className="text-white/60 hover:text-white transition-colors text-sm">
-                                        Read More →
+                                        {currentLanguage === 'ar' ? 'اقرأ المزيد ←' : 'Read More →'}
                                     </button>
                                 </article>
                             ))}
@@ -839,7 +842,7 @@ export const BlogsPage: React.FC<{
 
                                 {editingPostId === post.id && (
                                     <div className="mb-4">
-                                        <label className="block text-white/70 mb-2 text-xs">Full Content</label>
+                                        <label className="block text-white/70 mb-2 text-xs">{currentLanguage === 'ar' ? 'المحتوى الكامل' : 'Full Content'}</label>
                                         <EditableTextarea
                                             value={post.content}
                                             onChange={(value) => handlePostChange(post.id, 'content', value)}
@@ -860,7 +863,7 @@ export const BlogsPage: React.FC<{
                                         <span className="text-white/50 text-xs">{post.category}</span>
                                     )}
                                     <button className="text-white/60 hover:text-white transition-colors text-xs">
-                                        Read More →
+                                        {currentLanguage === 'ar' ? 'اقرأ المزيد ←' : 'Read More →'}
                                     </button>
                                 </div>
                             </article>
@@ -873,22 +876,22 @@ export const BlogsPage: React.FC<{
             <section className="py-20 px-6 relative z-20">
                 <div className="max-w-4xl mx-auto text-center">
                     <h2 className="text-4xl md:text-5xl font-extralight text-white mb-8 tracking-wide">
-                        Stay Connected
+                        {currentLanguage === 'ar' ? 'ابق على تواصل' : 'Stay Connected'}
                     </h2>
                     <p className="text-xl text-white/70 leading-relaxed mb-12 font-light">
-                        Don't miss our latest insights and updates. Join our community of passionate entrepreneurs.
+                        {currentLanguage === 'ar' ? 'لا تفوت أحدث الرؤى والتحديثات. انضم إلى مجتمع رواد الأعمال المتحمسين.' : 'Don\'t miss our latest insights and updates. Join our community of passionate entrepreneurs.'}
                     </p>
                     <div className="flex flex-col sm:flex-row gap-6 justify-center">
                         <button
                             onClick={onBack}
                             className="bg-white text-black px-8 py-4 rounded-full hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-lg font-medium"
                         >
-                            Join the Studio
+                            {currentLanguage === 'ar' ? 'انضم إلى الاستوديو' : 'Join the Studio'}
                         </button>
                         <button
                             className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-full hover:bg-white/20 transition-all duration-300 text-lg"
                         >
-                            Subscribe to Newsletter
+                            {currentLanguage === 'ar' ? 'اشترك في النشرة الإخبارية' : 'Subscribe to Newsletter'}
                         </button>
                     </div>
                 </div>
@@ -898,7 +901,7 @@ export const BlogsPage: React.FC<{
             <footer className="max-w-7xl mx-auto py-8 px-6 relative z-20 border-t border-white/10">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4">
                     <p className="text-white text-sm">
-                        © 2025 EAGLE NEBULA!. All rights reserved.
+                        {currentLanguage === 'ar' ? '© 2025 إيجل نيبولا. جميع الحقوق محفوظة.' : '© 2025 EAGLE NEBULA!. All rights reserved.'}
                     </p>
                     <div className="flex justify-center items-center gap-4">
                         <button className="text-white hover:text-white/60 transition-colors text-sm">
@@ -913,7 +916,7 @@ export const BlogsPage: React.FC<{
                     </div>
                                          <div className="flex items-center gap-6">
                          <button className="text-white hover:text-white/60 transition-colors text-sm" onClick={onNavigateToResources}>
-                             Resources & Gifts
+                             {currentLanguage === 'ar' ? 'الموارد والهدايا' : 'Resources & Gifts'}
                          </button>
                      </div>
                 </div>

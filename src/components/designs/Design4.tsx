@@ -98,7 +98,7 @@ export const Design4: React.FC<{
   onNavigateToResources: () => void;
   onNavigateToBlogs: () => void;
 }> = ({ onNavigateToResources, onNavigateToBlogs }) => {
-  const { currentLanguage, content: languageContent, loading: languageLoading } = useLanguage();
+  const { currentLanguage, content: languageContent, loading: languageLoading, refreshContent } = useLanguage();
   const parallaxRef = useRef<HTMLDivElement>(null);
   const hasMountedRef = useRef(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -398,6 +398,9 @@ export const Design4: React.FC<{
       setIsEditing(false);
       setOriginalContent(null);
       
+      // Refresh content from context to ensure we have the latest data
+      await refreshContent();
+      
       // Show success message
       alert('Content saved successfully!');
     } catch (error) {
@@ -406,7 +409,7 @@ export const Design4: React.FC<{
     } finally {
       setIsSaving(false);
     }
-  }, [content]);
+  }, [content, currentLanguage, refreshContent]);
 
   const handleFieldChange = React.useCallback((index: number, value: string) => {
     setContent(prev => ({

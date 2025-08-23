@@ -712,6 +712,28 @@ export class ContentService {
     }
   }
 
+  static async updateMultilingualResourceCard(originalId: string, language: string, updates: { title?: string; description?: string; button_text?: string }): Promise<boolean> {
+    try {
+      // Update the multilingual resource card
+      const { error } = await supabase
+        .from('multilingual_resource_cards')
+        .update({
+          title: updates.title,
+          description: updates.description,
+          button_text: updates.button_text,
+          updated_at: new Date().toISOString()
+        })
+        .eq('original_id', originalId)
+        .eq('language', language);
+
+      if (error) throw error;
+      return true;
+    } catch (error) {
+      console.error('Error updating multilingual resource card:', error);
+      return false;
+    }
+  }
+
   static async deleteResourceCard(id: string): Promise<boolean> {
     try {
       const { error } = await supabase

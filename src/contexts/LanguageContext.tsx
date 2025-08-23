@@ -9,6 +9,7 @@ interface LanguageContextType {
   loading: boolean;
   getContent: (section: string, field: string, fallback?: string) => string;
   isRTL: boolean;
+  refreshContent: () => Promise<void>;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -31,23 +32,27 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   const [content, setContent] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const loadContent = async () => {
-      setLoading(true);
-      try {
-        console.log('LanguageProvider: Loading content for language:', currentLanguage);
-        const fetchedContent = await ContentService.fetchAllContent(currentLanguage);
-        console.log('LanguageProvider: Fetched content:', fetchedContent);
-        setContent(fetchedContent);
-      } catch (error) {
-        console.error('Error loading content:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const loadContent = async () => {
+    setLoading(true);
+    try {
+      console.log('LanguageProvider: Loading content for language:', currentLanguage);
+      const fetchedContent = await ContentService.fetchAllContent(currentLanguage);
+      console.log('LanguageProvider: Fetched content:', fetchedContent);
+      setContent(fetchedContent);
+    } catch (error) {
+      console.error('Error loading content:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     loadContent();
   }, [currentLanguage]);
+
+  const refreshContent = async () => {
+    await loadContent();
+  };
 
   const changeLanguage = async (language: string) => {
     // Update i18n and document properties first
@@ -79,7 +84,8 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
     content,
     loading,
     getContent,
-    isRTL: currentLanguage === 'ar'
+    isRTL: currentLanguage === 'ar',
+    refreshContent
   };
 
   return (
