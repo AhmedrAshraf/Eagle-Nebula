@@ -780,10 +780,9 @@ export const Design4: React.FC<{
       {/* Rest of the sections... */}
       {/* What We Are Section */}
       <section id="who-we-are" className="py-4 px-6 md:py-32 md:px-6 relative z-20"> {/* Increased z-index */}
-        <div className="max-w-6xl mx-auto">
-          <div className="grid lg:grid-cols-1 gap-16 h-[60vh] items-center">
-            <div data-speed="0.1">
-              <h2 className="text-5xl font-extralight text-white mb-8 tracking-wide">
+      <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-20">
+            <h2 className="text-5xl font-extralight text-white mb-8 tracking-wide">
                 {isEditing ? (
                   <EditableInput
                   value={content.whatWeAreTitle}
@@ -812,7 +811,6 @@ export const Design4: React.FC<{
               </div>
             </div>
           </div>
-        </div>
       </section>
 
       {/* Focus Section */}
