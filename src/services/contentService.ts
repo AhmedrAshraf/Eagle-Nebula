@@ -1,4 +1,4 @@
-import { supabase, WebsiteContent, ContentUpdate } from '../lib/supabase'
+import { supabase, ContentUpdate } from '../lib/supabase'
 
 export interface FileUploadResult {
   url: string;
@@ -46,14 +46,29 @@ export interface MultilingualContent {
 }
 
 export class ContentService {
+  // Normalize language code to handle regional variants (e.g., en-GB -> en)
+  static normalizeLanguageCode(language: string): string {
+    if (language.startsWith('en-')) {
+      return 'en';
+    }
+    if (language.startsWith('ar-')) {
+      return 'ar';
+    }
+    return language;
+  }
+
   // Fetch all content from database with language support
   static async fetchAllContent(language: string = 'en'): Promise<Record<string, any>> {
     try {
+      // Normalize the language code to handle regional variants
+      const normalizedLanguage = this.normalizeLanguageCode(language);
+      console.log(`fetchAllContent: Normalized language from '${language}' to '${normalizedLanguage}'`);
+      
       // Get content from multilingual_content table for the specific language only
       const { data: multilingualData, error: multilingualError } = await supabase
         .from('multilingual_content')
         .select('*')
-        .eq('language', language)
+        .eq('language', normalizedLanguage)
         .order('section', { ascending: true })
 
       if (multilingualError) {
@@ -90,7 +105,7 @@ export class ContentService {
       const fileName = `${resourceId}_${timestamp}.${fileExtension}`;
       
       // Upload to Supabase Storage
-      const { data, error } = await supabase.storage
+      const { error } = await supabase.storage
         .from('resources')
         .upload(fileName, file, {
           cacheControl: '3600',
@@ -201,6 +216,8 @@ export class ContentService {
   // Update a single content field with language support
   static async updateContent(section: string, field: string, value: string, language: string = 'en'): Promise<void> {
     try {
+      const normalizedLanguage = this.normalizeLanguageCode(language);
+      
       // First, try to update existing record in multilingual_content table
       const { error: updateError } = await supabase
         .from('multilingual_content')
@@ -210,7 +227,7 @@ export class ContentService {
         })
         .eq('section', section)
         .eq('field', field)
-        .eq('language', language)
+        .eq('language', normalizedLanguage)
 
       if (updateError) {
         console.error('Error updating multilingual content:', updateError)
@@ -223,7 +240,7 @@ export class ContentService {
         .select('id')
         .eq('section', section)
         .eq('field', field)
-        .eq('language', language)
+        .eq('language', normalizedLanguage)
         .single()
 
       if (!existingData) {
@@ -232,7 +249,7 @@ export class ContentService {
           .insert({
             section,
             field,
-            language,
+            language: normalizedLanguage,
             value,
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString()
@@ -252,8 +269,9 @@ export class ContentService {
   // Update multiple content fields at once with language support
   static async updateMultipleContent(updates: ContentUpdate[], language: string = 'en'): Promise<void> {
     try {
+      const normalizedLanguage = this.normalizeLanguageCode(language);
       const promises = updates.map(update => 
-        this.updateContent(update.section, update.field, update.value, language)
+        this.updateContent(update.section, update.field, update.value, normalizedLanguage)
       )
       
       await Promise.all(promises)
@@ -266,10 +284,11 @@ export class ContentService {
   // Check if content exists for a specific language
   static async hasContentForLanguage(language: string): Promise<boolean> {
     try {
+      const normalizedLanguage = this.normalizeLanguageCode(language);
       const { data, error } = await supabase
         .from('multilingual_content')
         .select('id')
-        .eq('language', language)
+        .eq('language', normalizedLanguage)
         .limit(1);
 
       if (error) {
@@ -373,11 +392,13 @@ export class ContentService {
   // Resource Cards Management with language support
   static async getResourceCards(language: string = 'en'): Promise<ResourceCard[]> {
     try {
+      const normalizedLanguage = this.normalizeLanguageCode(language);
+      
       // Get multilingual resource cards for the specific language only
       const { data: multilingualData, error: multilingualError } = await supabase
         .from('multilingual_resource_cards')
         .select('*')
-        .eq('language', language)
+        .eq('language', normalizedLanguage)
         .order('original_id', { ascending: true });
 
       if (multilingualError) {
@@ -508,11 +529,13 @@ export class ContentService {
   // Blog Posts Management with language support
   static async getBlogPosts(language: string = 'en'): Promise<BlogPost[]> {
     try {
+      const normalizedLanguage = this.normalizeLanguageCode(language);
+      
       // Get multilingual blog posts for the specific language only
       const { data: multilingualData, error: multilingualError } = await supabase
         .from('multilingual_blog_posts')
         .select('*')
-        .eq('language', language)
+        .eq('language', normalizedLanguage)
         .order('original_id', { ascending: false });
 
       if (multilingualError) {
@@ -714,6 +737,8 @@ export class ContentService {
 
   static async updateMultilingualResourceCard(originalId: string, language: string, updates: { title?: string; description?: string; button_text?: string }): Promise<boolean> {
     try {
+      const normalizedLanguage = this.normalizeLanguageCode(language);
+      
       // Update the multilingual resource card
       const { error } = await supabase
         .from('multilingual_resource_cards')
@@ -724,7 +749,7 @@ export class ContentService {
           updated_at: new Date().toISOString()
         })
         .eq('original_id', originalId)
-        .eq('language', language);
+        .eq('language', normalizedLanguage);
 
       if (error) throw error;
       return true;

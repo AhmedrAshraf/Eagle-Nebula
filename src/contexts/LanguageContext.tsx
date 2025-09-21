@@ -28,7 +28,19 @@ interface LanguageProviderProps {
 
 export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
   const { i18n } = useTranslation();
-  const [currentLanguage, setCurrentLanguage] = useState(i18n.language || 'en');
+  
+  // Normalize language code to handle regional variants (e.g., en-GB -> en)
+  const normalizeLanguageCode = (language: string): string => {
+    if (language.startsWith('en-')) {
+      return 'en';
+    }
+    if (language.startsWith('ar-')) {
+      return 'ar';
+    }
+    return language;
+  };
+  
+  const [currentLanguage, setCurrentLanguage] = useState(normalizeLanguageCode(i18n.language || 'en'));
   const [content, setContent] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
 
@@ -55,13 +67,15 @@ export const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) 
   };
 
   const changeLanguage = async (language: string) => {
+    const normalizedLanguage = normalizeLanguageCode(language);
+    
     // Update i18n and document properties first
     i18n.changeLanguage(language);
-    document.documentElement.dir = language === 'ar' ? 'rtl' : 'ltr';
-    document.documentElement.lang = language;
+    document.documentElement.dir = normalizedLanguage === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.lang = normalizedLanguage;
     
     // Then update the language state (this will trigger useEffect to load content)
-    setCurrentLanguage(language);
+    setCurrentLanguage(normalizedLanguage);
   };
 
   const getContent = (section: string, field: string, fallback?: string) => {

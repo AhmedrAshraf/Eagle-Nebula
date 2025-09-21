@@ -41,6 +41,9 @@ i18n
     react: {
       useSuspense: false,
     },
+    
+    // Normalize language codes to handle regional variants
+    load: 'languageOnly', // This will load 'en' instead of 'en-GB'
   });
 
 export default i18n;
