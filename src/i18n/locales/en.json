@@ -1,0 +1,238 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "back": "Back",
+    "next": "Next",
+    "previous": "Previous",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "close": "Close",
+    "apply": "Apply",
+    "learnMore": "Learn More",
+    "download": "Download",
+    "contact": "Contact",
+    "join": "Join",
+    "logout": "Logout",
+    "settings": "Settings",
+    "menu": "Menu",
+    "home": "Home",
+    "resources": "Resources",
+    "blogs": "Blogs",
+    "about": "About",
+    "help": "Help",
+    "profile": "Profile",
+    "dashboard": "Dashboard",
+    "notifications": "Notifications",
+    "messages": "Messages",
+    "favorites": "Favorites",
+    "history": "History",
+    "preferences": "Preferences",
+    "language": "Language",
+    "theme": "Theme",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "autoMode": "Auto Mode"
+  },
+  "navigation": {
+    "home": "Home",
+    "resources": "Resources",
+    "blogs": "Blogs & News",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Eagle Nebula Startup Studio",
+    "subtitle": "Where Passionate Entrepreneurs Are Created",
+    "description": "In space, the Eagle Nebula is where stars are Created.\nIn our studio, it's where passionate entrepreneurs are created.\nWe don't just coach you… we co‑found with you.\nWe build Saudi startups together—from the first spark to launch."
+  },
+  "whoWeAre": {
+    "title": "Who We Are",
+    "description": "Most people think starting a business means figuring it out alone—or joining an incubator that only teaches theory.\n\nA startup studio is different.\nIt's a startup factory where ideas become companies side‑by‑side with experienced entrepreneurs.\n\nWhere we stand apart: many incubators, accelerators, and VCs chase numbers only—growth charts, user counts, revenue graphs. They treat passion as \"nice to have\" and ignore the new wave of founders: content creators, solopreneurs, freeLancers, influencers, creatives, coaches, personal brands —people building in completely new ways.\n\nAt Eagle Nebula, we start with you. We design a business around your passion, your skills, and the way you work best—then co‑found it with you.\n\nFrom day one you're inside our Design Your Business with AI methodology, supported by a community of like‑minded founders, seasoned coaches, and a co‑founder who's invested in your success.\n\nWe don't just coach.\nWe co‑create, co‑own, and co‑launch."
+  },
+  "focus": {
+    "title": "Who We Work With",
+    "subtitle": "Our Focus",
+    "description": "At Eagle Nebula, we're not looking for just any founder.\nWe're looking for passionate entrepreneurs — people who are driven not only by profit, but by the desire to create something that truly matters to them.",
+    "founders": "You might be an influencer, content creator, creative, artist, coach, educator, solopreneur, personal brand, or freelancers.\nThe label doesn't matter — what matters is that you have the passion, the drive, and the willingness to build.\n\nWe don't work with people chasing the next trend without caring if it fits them.\nWe work with those who want to design a business from the inside out, starting with their passion — and build it into something scalable, impactful, and truly theirs.\n\nIf that's you, you belong here."
+  },
+  "methodology": {
+    "title": "Design Your Business with AI",
+    "subtitle": "Our Methodology",
+    "description": "(The operating system of Eagle Nebula)\n\nMost founders start from the outside: \"What's trending? What's profitable?\"\nWe flip it. Start from inside—with founder fit—and then build outward. When the founder fits the market, the product becomes clear.\n\nThe Five Pillars:\n• What You Love – Your passion foundation. The fuel that keeps you going.\n• What You Have – Skills, experience, relationships, and assets already in your hands.\n• Your Best Way to Work – How you operate at your best (pace, role, environment, solo/team).\n• What You Want to Achieve – Your goals, outcomes, and the life you're building toward.\n• Your AI Co‑Builder – Your speed advantage that makes the journey easier and faster (idea testing, content, research, automation, ops).\n\nThe Sweet Spot: where all five overlap.\nYou love it. You're equipped for it. It fits your style. It moves you toward your goals. And AI makes building easier and faster than ever.\n\nThis is not a course. It's a build system—used live, in the studio, to turn your founder DNA into a company."
+  },
+  "whatYouGet": {
+    "title": "What You Get When We Co-Found With You",
+    "description": "• A venture designed around you (not a template)\n• Shared ownership: we build it together and win together\n• A practical playbook and a system powered by Design Your Business with AI\n• AI‑enabled validation, content, and operations from day one\n• Access to our network, coaches, tools, and hands‑on operators who love the zero‑to‑one phase"
+  },
+  "journey": {
+    "title": "Your Journey With Us",
+    "description": "Step 1 — Apply: Tell us who you are, your story, and what excites you. We don't need a perfect idea—we need a spark.\n\nStep 2 — Discovery: We run the Design Your Business with AI process to map your founder profile (love, assets, work‑style, goals). You're the center of the design.\n\nStep 3 — Co‑Founding Sprint: We sit at the same table and build: brainstorm, validate, name, position, prototype—using AI for faster testing and execution.\n\nStep 4 — The Eagle Nebula Ecosystem: Join a supportive community of passionate Saudi founders, coaches, and operators. Share wins, ask real questions, get real answers.\n\nStep 5 — Launch & Grow: We launch together. We stand with you in operations, content, and growth. We share the risk—and the reward."
+  },
+  "cta": {
+    "title": "Ready to Start Your Journey?",
+    "description": "You can chase the next trend and hope it fits you…\nor you can design the company that fits you—and build it with a co‑founder who's all‑in.\n\nApply to join Eagle Nebula Startup Studio today.\nThe best time to build your passionate business is now."
+  },
+  "resources": {
+    "heroTitle": "Resources & Gifts",
+    "heroDescription": "Exclusive tools, frameworks, and resources to accelerate your entrepreneurial journey. From AI-powered toolkits to comprehensive assessments—everything you need to design and build your passionate business.",
+    "resourcesTitle": "All Resources & Materials",
+    "ctaTitle": "Ready to Build Your Passionate Business?",
+    "ctaDescription": "These resources are just the beginning. Join Eagle Nebula Startup Studio and get hands-on support as we co-found your venture together.",
+    "ctaApplyButton": "Apply to Join the Studio",
+    "ctaLearnButton": "Learn More About Us",
+    "footerCopyright": "© 2025 EAGLE NEBULA!. All rights reserved.",
+    "footerBlogsButton": "Blogs & News"
+  },
+  "blogs": {
+    "heroTitle": "Blogs & News",
+    "heroDescription": "Stay updated with the latest insights, trends, and stories from the world of entrepreneurship and AI-powered business building.",
+    "blogsTitle": "Latest Articles & Updates",
+    "readMore": "Read More",
+    "featured": "Featured",
+    "categories": {
+      "all": "All Categories",
+      "aiTechnology": "AI & Technology",
+      "businessStrategy": "Business Strategy",
+      "industryNews": "Industry News",
+      "caseStudies": "Case Studies"
+    }
+  },
+  "ui": {
+    "buttons": {
+      "submit": "Submit",
+      "reset": "Reset",
+      "confirm": "Confirm",
+      "reject": "Reject",
+      "approve": "Approve",
+      "publish": "Publish",
+      "draft": "Draft",
+      "preview": "Preview",
+      "share": "Share",
+      "like": "Like",
+      "comment": "Comment",
+      "follow": "Follow",
+      "unfollow": "Unfollow",
+      "subscribe": "Subscribe",
+      "unsubscribe": "Unsubscribe"
+    },
+    "forms": {
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "phone": "Phone Number",
+      "address": "Address",
+      "city": "City",
+      "country": "Country",
+      "zipCode": "ZIP Code",
+      "company": "Company",
+      "position": "Position",
+      "website": "Website",
+      "bio": "Bio",
+      "message": "Message",
+      "subject": "Subject"
+    },
+    "status": {
+      "success": "Success",
+      "error": "Error",
+      "warning": "Warning",
+      "info": "Info",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "draft": "Draft",
+      "published": "Published",
+      "archived": "Archived",
+      "deleted": "Deleted",
+      "active": "Active",
+      "inactive": "Inactive",
+      "online": "Online",
+      "offline": "Offline"
+    },
+    "time": {
+      "now": "Now",
+      "today": "Today",
+      "yesterday": "Yesterday",
+      "tomorrow": "Tomorrow",
+      "thisWeek": "This Week",
+      "lastWeek": "Last Week",
+      "nextWeek": "Next Week",
+      "thisMonth": "This Month",
+      "lastMonth": "Last Month",
+      "nextMonth": "Next Month",
+      "thisYear": "This Year",
+      "lastYear": "Last Year",
+      "nextYear": "Next Year"
+    }
+  },
+  "resourceCards": {
+    "businessDesignFramework": {
+      "title": "Business Design Framework",
+      "description": "Our complete framework for designing your business around your unique founder profile. Includes detailed worksheets, step-by-step guides, and AI prompts to help you discover your sweet spot.",
+      "buttonText": "Download Framework"
+    },
+    "aiCoBuilderToolkit": {
+      "title": "AI Co-Builder Toolkit",
+      "description": "Essential AI tools and prompts for market research, content creation, business validation, and operations. Save months of work with our curated collection of AI assistants.",
+      "buttonText": "Download Toolkit"
+    },
+    "founderFitAssessment": {
+      "title": "Founder Fit Assessment",
+      "description": "Discover your unique founder profile with our comprehensive assessment. Understand your strengths, work style, and ideal business model before you build.",
+      "buttonText": "Take Assessment"
+    },
+    "startupValidationChecklist": {
+      "title": "Startup Validation Checklist",
+      "description": "Step-by-step checklist to validate your business idea before you invest significant time and money. Avoid common pitfalls and build with confidence.",
+      "buttonText": "Download Checklist"
+    },
+    "saudiMarketInsights": {
+      "title": "Saudi Market Insights Report",
+      "description": "Exclusive insights into the Saudi startup ecosystem, emerging trends, funding landscape, and opportunities. Stay ahead of the curve.",
+      "buttonText": "Download Report"
+    },
+    "investorPitchTemplate": {
+      "title": "Investor Pitch Template",
+      "description": "Professional pitch deck template specifically designed for passionate entrepreneurs. Includes storytelling frameworks and design guidelines.",
+      "buttonText": "Download Template"
+    },
+    "financialPlanningModel": {
+      "title": "Financial Planning Model",
+      "description": "Comprehensive Excel/Google Sheets financial model template for startups. Includes revenue projections, cash flow, and scenario planning.",
+      "buttonText": "Download Model"
+    },
+    "exclusiveCommunityAccess": {
+      "title": "Exclusive Community Access",
+      "description": "Join our private community of passionate Saudi entrepreneurs, seasoned coaches, and successful operators. Network, learn, and grow together.",
+      "buttonText": "Join Community"
+    }
+  },
+  "blogPosts": {
+    "aiInSaudiEntrepreneurship": {
+      "title": "The Future of AI in Saudi Entrepreneurship",
+      "excerpt": "Discover how artificial intelligence is transforming the Saudi startup ecosystem and creating new opportunities for passionate entrepreneurs.",
+      "content": "The landscape of entrepreneurship in Saudi Arabia is rapidly evolving, with artificial intelligence playing a pivotal role in this transformation. From automated business processes to AI-powered market analysis, the opportunities for innovative startups are unprecedented."
+    },
+    "buildingBusinessAroundPassion": {
+      "title": "Building Your Business Around Passion: A Framework",
+      "excerpt": "Learn our proven methodology for designing businesses that align with your personal passions, skills, and long-term goals.",
+      "content": "Most entrepreneurs start with market trends and try to fit themselves into opportunities. We believe in starting with the founder - understanding your unique combination of passion, skills, and vision to create a business that truly fits you."
+    },
+    "vision2030StartupRevolution": {
+      "title": "Vision 2030 and the Startup Revolution",
+      "excerpt": "How Saudi Vision 2030 is creating unprecedented opportunities for innovative startups and passionate entrepreneurs.",
+      "content": "Saudi Arabia's Vision 2030 has opened doors for entrepreneurs like never before. From NEOM to the Red Sea Project, the Kingdom is actively supporting innovative startups that align with its ambitious goals."
+    },
+    "ideaToMvp": {
+      "title": "From Idea to MVP: Our Co-Founding Process",
+      "excerpt": "Take a behind-the-scenes look at how we work with founders to transform ideas into viable products and businesses.",
+      "content": "The journey from idea to minimum viable product is crucial for any startup. At Eagle Nebula, we've refined this process to help passionate entrepreneurs build faster and smarter."
+    }
+  }
+}

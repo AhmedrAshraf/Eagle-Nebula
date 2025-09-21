@@ -1,4 +1,4 @@
-import { supabase, WebsiteContent, ContentUpdate } from '../lib/supabase'
+import { supabase, ContentUpdate } from '../lib/supabase'
 
 export interface FileUploadResult {
   url: string;
@@ -16,6 +16,7 @@ export interface ResourceCard {
   icon?: string;
   category?: string;
   order: number;
+  language?: string;
   created_at: string;
   updated_at: string;
 }
@@ -29,34 +30,65 @@ export interface BlogPost {
   date: string;
   category: string;
   featured: boolean;
+  language?: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface MultilingualContent {
+  id: string;
+  section: string;
+  field: string;
+  language: string;
+  value: string;
   created_at: string;
   updated_at: string;
 }
 
 export class ContentService {
-  // Fetch all content from database
-  static async fetchAllContent(): Promise<Record<string, any>> {
+  // Normalize language code to handle regional variants (e.g., en-GB -> en)
+  static normalizeLanguageCode(language: string): string {
+    if (language.startsWith('en-')) {
+      return 'en';
+    }
+    if (language.startsWith('ar-')) {
+      return 'ar';
+    }
+    return language;
+  }
+
+  // Fetch all content from database with language support
+  static async fetchAllContent(language: string = 'en'): Promise<Record<string, any>> {
     try {
-      const { data, error } = await supabase
-        .from('website_content')
+      // Normalize the language code to handle regional variants
+      const normalizedLanguage = this.normalizeLanguageCode(language);
+      console.log(`fetchAllContent: Normalized language from '${language}' to '${normalizedLanguage}'`);
+      
+      // Get content from multilingual_content table for the specific language only
+      const { data: multilingualData, error: multilingualError } = await supabase
+        .from('multilingual_content')
         .select('*')
+        .eq('language', normalizedLanguage)
         .order('section', { ascending: true })
 
-      if (error) {
-        console.error('Error fetching content:', error)
-        throw error
+      if (multilingualError) {
+        console.error('Error fetching multilingual content:', multilingualError)
+        throw multilingualError
       }
 
+      console.log('fetchAllContent: Raw multilingual data:', multilingualData);
+      
       // Transform data into the format expected by the component
       const contentMap: Record<string, any> = {}
       
-      data?.forEach((item: WebsiteContent) => {
+      multilingualData?.forEach((item: MultilingualContent) => {
         if (!contentMap[item.section]) {
           contentMap[item.section] = {}
         }
         contentMap[item.section][item.field] = item.value
       })
 
+      console.log('fetchAllContent: Transformed content map:', contentMap);
       return contentMap
     } catch (error) {
       console.error('Error in fetchAllContent:', error)
@@ -73,7 +105,7 @@ export class ContentService {
       const fileName = `${resourceId}_${timestamp}.${fileExtension}`;
       
       // Upload to Supabase Storage
-      const { data, error } = await supabase.storage
+      const { error } = await supabase.storage
         .from('resources')
         .upload(fileName, file, {
           cacheControl: '3600',
@@ -181,45 +213,50 @@ export class ContentService {
     }
   }
 
-  // Update a single content field
-  static async updateContent(section: string, field: string, value: string): Promise<void> {
+  // Update a single content field with language support
+  static async updateContent(section: string, field: string, value: string, language: string = 'en'): Promise<void> {
     try {
-      // First, try to update existing record
+      const normalizedLanguage = this.normalizeLanguageCode(language);
+      
+      // First, try to update existing record in multilingual_content table
       const { error: updateError } = await supabase
-        .from('website_content')
+        .from('multilingual_content')
         .update({ 
           value,
           updated_at: new Date().toISOString()
         })
         .eq('section', section)
         .eq('field', field)
+        .eq('language', normalizedLanguage)
 
       if (updateError) {
-        console.error('Error updating content:', updateError)
+        console.error('Error updating multilingual content:', updateError)
         throw updateError
       }
 
       // If no rows were updated, insert new record
       const { data: existingData } = await supabase
-        .from('website_content')
+        .from('multilingual_content')
         .select('id')
         .eq('section', section)
         .eq('field', field)
+        .eq('language', normalizedLanguage)
         .single()
 
       if (!existingData) {
         const { error: insertError } = await supabase
-          .from('website_content')
+          .from('multilingual_content')
           .insert({
             section,
             field,
+            language: normalizedLanguage,
             value,
             created_at: new Date().toISOString(),
             updated_at: new Date().toISOString()
           })
 
         if (insertError) {
-          console.error('Error inserting content:', insertError)
+          console.error('Error inserting multilingual content:', insertError)
           throw insertError
         }
       }
@@ -229,17 +266,61 @@ export class ContentService {
     }
   }
 
-  // Update multiple content fields at once
-  static async updateMultipleContent(updates: ContentUpdate[]): Promise<void> {
+  // Update multiple content fields at once with language support
+  static async updateMultipleContent(updates: ContentUpdate[], language: string = 'en'): Promise<void> {
     try {
+      const normalizedLanguage = this.normalizeLanguageCode(language);
       const promises = updates.map(update => 
-        this.updateContent(update.section, update.field, update.value)
+        this.updateContent(update.section, update.field, update.value, normalizedLanguage)
       )
       
       await Promise.all(promises)
     } catch (error) {
       console.error('Error in updateMultipleContent:', error)
       throw error
+    }
+  }
+
+  // Check if content exists for a specific language
+  static async hasContentForLanguage(language: string): Promise<boolean> {
+    try {
+      const normalizedLanguage = this.normalizeLanguageCode(language);
+      const { data, error } = await supabase
+        .from('multilingual_content')
+        .select('id')
+        .eq('language', normalizedLanguage)
+        .limit(1);
+
+      if (error) {
+        console.error('Error checking content for language:', error);
+        return false;
+      }
+
+      return data && data.length > 0;
+    } catch (error) {
+      console.error('Error in hasContentForLanguage:', error);
+      return false;
+    }
+  }
+
+  // Get available languages
+  static async getAvailableLanguages(): Promise<string[]> {
+    try {
+      const { data, error } = await supabase
+        .from('multilingual_content')
+        .select('language')
+        .order('language');
+
+      if (error) {
+        console.error('Error getting available languages:', error);
+        return [];
+      }
+
+      const languages = data?.map(item => item.language) || [];
+      return [...new Set(languages)]; // Remove duplicates
+    } catch (error) {
+      console.error('Error in getAvailableLanguages:', error);
+      return [];
     }
   }
 
@@ -308,16 +389,45 @@ export class ContentService {
     }
   }
 
-  // Resource Cards Management
-  static async getResourceCards(): Promise<ResourceCard[]> {
+  // Resource Cards Management with language support
+  static async getResourceCards(language: string = 'en'): Promise<ResourceCard[]> {
     try {
-      const { data, error } = await supabase
-        .from('resource_cards')
+      const normalizedLanguage = this.normalizeLanguageCode(language);
+      
+      // Get multilingual resource cards for the specific language only
+      const { data: multilingualData, error: multilingualError } = await supabase
+        .from('multilingual_resource_cards')
         .select('*')
-        .order('order', { ascending: true });
+        .eq('language', normalizedLanguage)
+        .order('original_id', { ascending: true });
 
-      if (error) throw error;
-      return data || [];
+      if (multilingualError) {
+        console.error('Error fetching multilingual resource cards:', multilingualError);
+        throw multilingualError;
+      }
+
+      if (multilingualData && multilingualData.length > 0) {
+        console.log('Raw multilingual resource cards data:', multilingualData);
+        const mappedData = multilingualData.map((item: any) => ({
+          id: item.original_id,
+          title: item.title,
+          description: item.description,
+          buttonText: item.button_text,
+          buttonAction: 'download' as const, // Default action
+          buttonLink: undefined,
+          icon: '⭐', // Default icon
+          category: 'resources',
+          order: 1, // Default order
+          language: item.language,
+          created_at: item.created_at,
+          updated_at: item.updated_at
+        }));
+        console.log('Mapped resource cards:', mappedData);
+        return mappedData;
+      }
+
+      // Return empty array if no content for this language
+      return [];
     } catch (error) {
       console.error('Error fetching resource cards:', error);
       return [];
@@ -416,16 +526,44 @@ export class ContentService {
     }
   }
 
-  // Blog Posts Management
-  static async getBlogPosts(): Promise<BlogPost[]> {
+  // Blog Posts Management with language support
+  static async getBlogPosts(language: string = 'en'): Promise<BlogPost[]> {
     try {
-      const { data, error } = await supabase
-        .from('blog_posts')
+      const normalizedLanguage = this.normalizeLanguageCode(language);
+      
+      // Get multilingual blog posts for the specific language only
+      const { data: multilingualData, error: multilingualError } = await supabase
+        .from('multilingual_blog_posts')
         .select('*')
-        .order('created_at', { ascending: false });
+        .eq('language', normalizedLanguage)
+        .order('original_id', { ascending: false });
 
-      if (error) throw error;
-      return data || [];
+      if (multilingualError) {
+        console.error('Error fetching multilingual blog posts:', multilingualError);
+        throw multilingualError;
+      }
+
+      if (multilingualData && multilingualData.length > 0) {
+        console.log('Raw multilingual blog posts data:', multilingualData);
+        const mappedData = multilingualData.map((item: any) => ({
+          id: item.original_id,
+          title: item.title,
+          excerpt: item.excerpt,
+          content: item.content,
+          author: 'Eagle Nebula Team', // Default author
+          date: new Date().toISOString().split('T')[0], // Default date
+          category: 'Business Strategy', // Default category
+          featured: false, // Default featured status
+          language: item.language,
+          created_at: item.created_at,
+          updated_at: item.updated_at
+        }));
+        console.log('Mapped blog posts:', mappedData);
+        return mappedData;
+      }
+
+      // Return empty array if no content for this language
+      return [];
     } catch (error) {
       console.error('Error fetching blog posts:', error);
       return [];
@@ -594,6 +732,30 @@ export class ContentService {
     } catch (error) {
       console.error('Error updating resource card:', error);
       return null;
+    }
+  }
+
+  static async updateMultilingualResourceCard(originalId: string, language: string, updates: { title?: string; description?: string; button_text?: string }): Promise<boolean> {
+    try {
+      const normalizedLanguage = this.normalizeLanguageCode(language);
+      
+      // Update the multilingual resource card
+      const { error } = await supabase
+        .from('multilingual_resource_cards')
+        .update({
+          title: updates.title,
+          description: updates.description,
+          button_text: updates.button_text,
+          updated_at: new Date().toISOString()
+        })
+        .eq('original_id', originalId)
+        .eq('language', normalizedLanguage);
+
+      if (error) throw error;
+      return true;
+    } catch (error) {
+      console.error('Error updating multilingual resource card:', error);
+      return false;
     }
   }
 

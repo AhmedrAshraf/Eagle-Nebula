@@ -1,7 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Rocket, Star, Zap, Edit3, Save, X, Menu, ChevronDown, Twitter, Linkedin, Youtube, Settings, Lock, RotateCcw, LogOut, Plus, Trash2, FileText, Upload, Download, ExternalLink, MessageCircle, ArrowLeft } from 'lucide-react';
 import { ContentService, ResourceCard } from '../services/contentService';
+import { useLanguage } from '../hooks/useLanguage';
 import { supabase } from '../lib/supabase';
+import LanguageSwitcher from './LanguageSwitcher';
 
 interface ResourceItem {
   id: string;
@@ -69,6 +71,7 @@ export const ResourcesPage: React.FC<{
   onBack: () => void;
   onNavigateToBlogs: () => void;
 }> = ({ onBack, onNavigateToBlogs }) => {
+  const { currentLanguage } = useLanguage();
   const parallaxRef = useRef<HTMLDivElement>(null);
   const hasMountedRef = useRef(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -115,7 +118,7 @@ export const ResourcesPage: React.FC<{
         
         // Fetch both content and resource cards in parallel
         const [contentMap, files] = await Promise.all([
-          ContentService.fetchAllContent(),
+          ContentService.fetchAllContent(currentLanguage),
           ContentService.getResourceFiles()
         ]);
         
@@ -123,21 +126,23 @@ export const ResourcesPage: React.FC<{
         await ContentService.initializeResourceCards();
         
         // Fetch resource cards after initialization
-        const cards = await ContentService.getResourceCards();
+        const cards = await ContentService.getResourceCards(currentLanguage);
         
         // Transform database content to component format
         const transformedContent: EditableContent = {
-          heroTitle: contentMap.resources?.heroTitle || '',
-          heroDescription: contentMap.resources?.heroDescription || '',
-          resourcesTitle: contentMap.resources?.resourcesTitle || '',
-          ctaTitle: contentMap.resources?.ctaTitle || '',
-          ctaDescription: contentMap.resources?.ctaDescription || '',
-          ctaApplyButton: contentMap.resources?.ctaApplyButton || '',
-          ctaLearnButton: contentMap.resources?.ctaLearnButton || '',
-          footerCopyright: contentMap.resources?.footerCopyright || '',
-          footerBlogsButton: contentMap.resources?.footerBlogsButton || ''
+          heroTitle: contentMap.resources?.heroTitle || (currentLanguage === 'ar' ? 'الموارد والهدايا' : 'Resources & Gifts'),
+          heroDescription: contentMap.resources?.heroDescription || (currentLanguage === 'ar' ? 'أدوات حصرية، أطر عمل، وموارد لتسريع رحلتك الريادية. من مجموعات أدوات مدعومة بالذكاء الاصطناعي إلى تقييمات شاملة—كل ما تحتاجه لتصميم وبناء عملك التجاري المتحمس.' : 'Exclusive tools, frameworks, and resources to accelerate your entrepreneurial journey. From AI-powered toolkits to comprehensive assessments—everything you need to design and build your passionate business.'),
+          resourcesTitle: contentMap.resources?.resourcesTitle || (currentLanguage === 'ar' ? 'جميع الموارد والمواد' : 'All Resources & Materials'),
+          ctaTitle: contentMap.resources?.ctaTitle || (currentLanguage === 'ar' ? 'مستعد لبناء عملك التجاري المتحمس؟' : 'Ready to Build Your Passionate Business?'),
+          ctaDescription: contentMap.resources?.ctaDescription || (currentLanguage === 'ar' ? 'هذه الموارد هي مجرد البداية. انضم إلى استوديو إيجل نيبولا للشركات الناشئة واحصل على دعم عملي بينما نشاركك في تأسيس مشروعك.' : 'These resources are just the beginning. Join the Eagle Nebula Startup Studio and get hands-on support as we co-found your venture.'),
+          ctaApplyButton: contentMap.resources?.ctaApplyButton || (currentLanguage === 'ar' ? 'تقدم للانضمام إلى الاستوديو' : 'Apply to Join the Studio'),
+          ctaLearnButton: contentMap.resources?.ctaLearnButton || (currentLanguage === 'ar' ? 'اعرف المزيد عنا' : 'Learn More About Us'),
+          footerCopyright: contentMap.resources?.footerCopyright || (currentLanguage === 'ar' ? '© 2025 إيجل نيبولا! جميع الحقوق محفوظة.' : '© 2025 EAGLE NEBULA!. All rights reserved.'),
+          footerBlogsButton: contentMap.resources?.footerBlogsButton || (currentLanguage === 'ar' ? 'المدونة والأخبار' : 'Blogs & News')
         };
         
+        console.log('Fetched resource cards:', cards);
+        console.log('Current language:', currentLanguage);
         setContent(transformedContent);
         setResourceCards(cards);
         setResourceFiles(files);
@@ -147,8 +152,8 @@ export const ResourcesPage: React.FC<{
         await ContentService.initializeDefaultContent();
         // Retry fetch
         const [contentMap, cards, files] = await Promise.all([
-          ContentService.fetchAllContent(),
-          ContentService.getResourceCards(),
+          ContentService.fetchAllContent(currentLanguage),
+          ContentService.getResourceCards(currentLanguage),
           ContentService.getResourceFiles()
         ]);
         // ... same transformation logic
@@ -158,7 +163,7 @@ export const ResourcesPage: React.FC<{
     };
 
     fetchData();
-  }, []);
+  }, [currentLanguage]);
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -285,7 +290,7 @@ export const ResourcesPage: React.FC<{
         { section: 'resources', field: 'footerBlogsButton', value: content.footerBlogsButton }
       ];
 
-      await ContentService.updateMultipleContent(updates);
+      await ContentService.updateMultipleContent(updates, currentLanguage);
       setIsEditing(false);
       setOriginalContent(null);
       
@@ -470,19 +475,14 @@ export const ResourcesPage: React.FC<{
         { section: 'resources', field: 'footerBlogsButton', value: content.footerBlogsButton }
       ];
 
-      await ContentService.updateMultipleContent(updates);
+      await ContentService.updateMultipleContent(updates, currentLanguage);
 
-      // Save resource card changes
+      // Save resource card changes for the current language
       for (const card of resourceCards) {
-        await ContentService.updateResourceCard(card.id, {
+        await ContentService.updateMultilingualResourceCard(card.id, currentLanguage, {
           title: card.title,
           description: card.description,
-          buttonText: card.buttonText,
-          buttonAction: card.buttonAction,
-          buttonLink: card.buttonLink,
-          icon: card.icon,
-          category: card.category,
-          order: card.order
+          button_text: card.buttonText
         });
       }
 
@@ -504,7 +504,7 @@ export const ResourcesPage: React.FC<{
       <div className="min-h-screen bg-black flex items-center justify-center">
         <div className="text-white text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
-          <p className="text-lg">Loading content...</p>
+          <p className="text-lg">{currentLanguage === 'ar' ? 'جاري تحميل المحتوى...' : 'Loading content...'}</p>
         </div>
       </div>
     );
@@ -528,48 +528,66 @@ export const ResourcesPage: React.FC<{
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+            {/* Left: Back to Home Button */}
+            <div className="flex items-center">
               <button
                 onClick={onBack}
                 className="text-white/70 hover:text-white transition-colors duration-300 flex items-center gap-2"
               >
                 <ArrowLeft className="w-5 h-5" />
-                Back to Home
+                {currentLanguage === 'ar' ? 'العودة للرئيسية' : 'Back to Home'}
               </button>
             </div>
 
+            {/* Center: EAGLE NEBULA Logo */}
             <div className="text-white font-light text-xl tracking-wider">
               EAGLE NEBULA
             </div>
 
+            {/* Right: Language Switcher + Admin Controls */}
             <div className="flex items-center space-x-4">
-                {isEditing ? (
-                  <>
+              {/* Desktop Language Switcher */}
+              <div className="hidden md:block">
+                <LanguageSwitcher />
+              </div>
+              
+              {/* Mobile Language Switcher */}
+              <div className="md:hidden">
+                <LanguageSwitcher />
+              </div>
+              
+              {/* Admin Controls - Only show if user is admin */}
+              {isAdmin && (
+                <>
+                  {isEditing ? (
+                    <>
+                    <button
+                      onClick={handleDiscardChanges}
+                      className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/20 text-red-400 border border-red-400/30 hover:bg-red-500/30 transition-all duration-300"
+                    >
+                      <RotateCcw className="w-4 h-4" />
+                      {currentLanguage === 'ar' ? 'إلغاء' : 'Discard'}
+                    </button>
+                    <button
+                      onClick={handleSaveResourceChanges}
+                      disabled={isSaving}
+                      className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 text-green-400 border border-green-400/30 hover:bg-green-500/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <Save className="w-4 h-4" />
+                      {isSaving ? (currentLanguage === 'ar' ? 'جاري الحفظ...' : 'Saving...') : (currentLanguage === 'ar' ? 'حفظ' : 'Save')}
+                    </button>
+                    </>
+                  ) : (
                   <button
-                    onClick={handleDiscardChanges}
-                    className="flex items-center gap-2 px-4 py-2 rounded-full bg-red-500/20 text-red-400 border border-red-400/30 hover:bg-red-500/30 transition-all duration-300"
+                    onClick={handleStartEditing}
+                    className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-all duration-300"
                   >
-                    <RotateCcw className="w-4 h-4" />
-                    Discard
+                      <Edit3 className="w-4 h-4" />
+                      {currentLanguage === 'ar' ? 'تعديل المحتوى' : 'Edit Content'}
                   </button>
-                  <button
-                    onClick={handleSaveResourceChanges}
-                    disabled={isSaving}
-                    className="flex items-center gap-2 px-4 py-2 rounded-full bg-green-500/20 text-green-400 border border-green-400/30 hover:bg-green-500/30 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    <Save className="w-4 h-4" />
-                    {isSaving ? 'Saving...' : 'Save'}
-                  </button>
-                  </>
-                ) : (
-                <button
-                  onClick={handleStartEditing}
-                  className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 hover:bg-white/20 transition-all duration-300"
-                >
-                    <Edit3 className="w-4 h-4" />
-                    Edit Content
-                </button>
-                )}
+                  )}
+                </>
+              )}
             </div>
           </div>
         </div>
